@@ -3,8 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/constants.php';
 
-use App\Core\Init;
+use App\Controllers\Homecontroller;
 
-$t = new Init;
-$t->set();
-
+$controller = new HomeController();
+$controller->index();
