@@ -11,7 +11,10 @@
     ],
     "require": {},
     "scripts": {
-        "dev": "php -S localhost:1488 -t public -d display_errors=1 -d error_reporting=E_ALL"
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -S localhost:1488 -t public -d display_errors=1 -d error_reporting=E_ALL"
+        ]
     },
     "autoload": {
         "psr-4": {
