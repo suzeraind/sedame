@@ -1,0 +1,21 @@
+{
+    "name": "nikita/sedame",
+    "description": "esential mvc framework",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "suzeraind",
+            "email": "nikitas4478@gmail.com"
+        }
+    ],
+    "require": {},
+    "scripts": {
+        "dev": "php -S localhost:1488 -t public -d display_errors=1 -d error_reporting=E_ALL"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}

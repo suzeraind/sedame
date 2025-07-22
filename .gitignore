@@ -1,0 +1,8 @@
+.env
+.env.backup
+.env.production
+/vendor
+/.phpunit.cache
+.vscode
+.idea
+.zed
