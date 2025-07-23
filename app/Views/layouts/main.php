@@ -41,6 +41,7 @@
                 text-align: center;
             }
         </style>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
 
     <body>
@@ -60,6 +61,7 @@
                 <a href="/contact">Контакты</a>
             </nav>
 
+            <h1 class="text-3xl font-bold underline">Bambalelo</h1>
             <?= $content ?? '' ?>
 
             <footer>
