@@ -9,14 +9,12 @@
         />
         <title><?= htmlspecialchars($title ?? 'Мой сайт') ?></title>
 
-        <!-- Ваши скрипты (оставлены как есть) -->
         <script src="/assets/scripts/browser@4.js"></script>
         <script
             src="/assets/scripts/main.js"
             defer
         ></script>
 
-        <!-- Ваши кастомные стили (если нужно что-то дополнить) -->
         <link
             href="/assets/styles/style.css"
             rel="stylesheet"
@@ -30,23 +28,16 @@
     </head>
 
     <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-
-        <!-- Основной контент -->
         <div
             id="app"
             class="flex-grow"
         >
             <?php $this->component('header', ['site_name' => 'Мой Блог']) ?>
-
-            <!-- Основное содержимое страницы -->
             <main class="py-8 sm:py-12">
                 <?= $content ?? '' ?>
             </main>
         </div>
-
-        <!-- Подвал -->
         <?php $this->component('footer') ?>
-
     </body>
 
 </html>
