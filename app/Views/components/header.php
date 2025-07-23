@@ -1,3 +1,6 @@
+<?php
+$active_page = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
+?>
 <header
     class="bg-white shadow-sm sticky top-0 z-50"
     x-data="{ mobileMenuOpen: false }"
@@ -14,7 +17,7 @@
             <a
                 href="/"
                 class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors
-                       <?= ($active_page ?? '') === 'home'
+                       <?= ($active_page ?? '') === '/'
                            ? 'text-indigo-600 bg-indigo-50 font-semibold'
                            : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100' ?>"
             >
@@ -23,7 +26,7 @@
             <a
                 href="/about"
                 class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors
-                       <?= ($active_page ?? '') === 'about'
+                       <?= ($active_page ?? '') === '/about'
                            ? 'text-indigo-600 bg-indigo-50 font-semibold'
                            : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100' ?>"
             >
@@ -32,7 +35,7 @@
             <a
                 href="/contact"
                 class="nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors
-                       <?= ($active_page ?? '') === 'contact'
+                       <?= ($active_page ?? '') === '/contact'
                            ? 'text-indigo-600 bg-indigo-50 font-semibold'
                            : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100' ?>"
             >
@@ -77,7 +80,7 @@
                 href="/"
                 @click="mobileMenuOpen = false"
                 class="nav-link px-5 py-3 text-gray-700 hover:bg-gray-100 hover:text-indigo-600
-                       <?= ($active_page ?? '') === 'home' ? 'bg-indigo-50 font-medium' : '' ?>"
+                       <?= ($active_page ?? '') === '/' ? 'bg-indigo-50 font-medium' : '' ?>"
                 role="menuitem"
             >
                 Главная
@@ -86,7 +89,7 @@
                 href="/about"
                 @click="mobileMenuOpen = false"
                 class="nav-link px-5 py-3 text-gray-700 hover:bg-gray-100 hover:text-indigo-600
-                       <?= ($active_page ?? '') === 'about' ? 'bg-indigo-50 font-medium' : '' ?>"
+                       <?= ($active_page ?? '') === '/about' ? 'bg-indigo-50 font-medium' : '' ?>"
                 role="menuitem"
             >
                 О нас
@@ -95,7 +98,7 @@
                 href="/contact"
                 @click="mobileMenuOpen = false"
                 class="nav-link px-5 py-3 hover:bg-gray-100 hover:text-indigo-600
-                       <?= ($active_page ?? '') === 'contact' ? 'bg-indigo-50 text-indigo-600 font-medium' : '' ?>"
+                       <?= ($active_page ?? '') === '/contact' ? 'bg-indigo-50 text-indigo-600 font-medium' : '' ?>"
                 role="menuitem"
             >
                 Контакты
