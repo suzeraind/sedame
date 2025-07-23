@@ -68,12 +68,6 @@
     <div
         id="mobile-menu"
         x-show="mobileMenuOpen"
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 scale-95"
-        x-transition:enter-end="opacity-100 scale-100"
-        x-transition:leave="transition ease-in duration-150"
-        x-transition:leave-start="opacity-100 scale-100"
-        x-transition:leave-end="opacity-0 scale-95"
         class="md:hidden bg-white border-t border-gray-200"
         role="menu"
         aria-orientation="vertical"
@@ -83,7 +77,7 @@
                 href="/"
                 @click="mobileMenuOpen = false"
                 class="nav-link px-5 py-3 text-gray-700 hover:bg-gray-100 hover:text-indigo-600
-                       <?= ($active_page ?? '') === 'home' ? 'bg-indigo-50 text-indigo-600 font-medium' : '' ?>"
+                       <?= ($active_page ?? '') === 'home' ? 'bg-indigo-50 font-medium' : '' ?>"
                 role="menuitem"
             >
                 Главная
@@ -92,7 +86,7 @@
                 href="/about"
                 @click="mobileMenuOpen = false"
                 class="nav-link px-5 py-3 text-gray-700 hover:bg-gray-100 hover:text-indigo-600
-                       <?= ($active_page ?? '') === 'about' ? 'bg-indigo-50 text-indigo-600 font-medium' : '' ?>"
+                       <?= ($active_page ?? '') === 'about' ? 'bg-indigo-50 font-medium' : '' ?>"
                 role="menuitem"
             >
                 О нас
@@ -100,7 +94,7 @@
             <a
                 href="/contact"
                 @click="mobileMenuOpen = false"
-                class="nav-link px-5 py-3 text-gray-700 hover:bg-gray-100 hover:text-indigo-600
+                class="nav-link px-5 py-3 hover:bg-gray-100 hover:text-indigo-600
                        <?= ($active_page ?? '') === 'contact' ? 'bg-indigo-50 text-indigo-600 font-medium' : '' ?>"
                 role="menuitem"
             >
