@@ -4,13 +4,13 @@
     <head>
         <meta charset="UTF-8">
         <title><?= $title ?? 'Мой сайт' ?></title>
-        <script src="./assets/scripts/browser@4.js"></script>
+        <script src="/assets/scripts/browser@4.js"></script>
         <script
-            src="./assets/scripts/main.js"
+            src="/assets/scripts/main.js"
             defer
         ></script>
         <link
-            href="./assets/styles/style.css"
+            href="/assets/styles/style.css"
             rel="stylesheet"
         >
         </link>

@@ -76,40 +76,64 @@ class Router
                 continue;
             }
 
-            $this->routes[$methodType][$route->path] = "$className@{$method->getName()}";
+            $pattern = $this->convertPathToRegex($route->path);
+
+            $this->routes[$methodType][] = [
+                'pattern' => $pattern,
+                'path' => $route->path,
+                'action' => "$className@{$method->getName()}",
+            ];
         }
     }
+
+    private function convertPathToRegex(string $path): string
+    {
+        $pattern = preg_replace('#\{([a-zA-Z0-9_]+)\}#', '(?P<\1>[^/]+)', $path);
+        return '#^' . rtrim($pattern, '/') . '/?$#';
+    }
+
 
     private function dispatch(): void
     {
         $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
 
-        $supportedMethods = array_keys($this->routes);
+        $uri = rtrim($uri, '/') ?: '/';
 
-        if (!in_array($method, $supportedMethods)) {
+        if (!isset($this->routes[$method])) {
             http_response_code(405);
-            header('Allow: ' . implode(', ', $supportedMethods));
             echo "Метод не поддерживается.";
             return;
         }
 
-        if (isset($this->routes[$method][$uri])) {
-            $this->callAction($this->routes[$method][$uri], []);
-            return;
+        foreach ($this->routes[$method] as $route) {
+            if (preg_match($route['pattern'], $uri, $matches)) {
+                $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+                $this->callAction($route['action'], $params);
+                return;
+            }
         }
 
-        $allowed = array_filter($supportedMethods, fn($m) => isset($this->routes[$m][$uri]));
+        $allowedMethods = [];
 
-        if (!empty($allowed)) {
+        foreach ($this->routes as $m => $routes) {
+            foreach ($routes as $route) {
+                if (preg_match($route['pattern'], $uri)) {
+                    $allowedMethods[] = $m;
+                }
+            }
+        }
+
+        if (!empty($allowedMethods)) {
             http_response_code(405);
-            header('Allow: ' . implode(', ', $allowed));
+            header('Allow: ' . implode(', ', $allowedMethods));
             echo "Метод не разрешён для этого адреса.";
         } else {
             http_response_code(404);
             echo "Страница не найдена.";
         }
     }
+
 
     private function callAction(string $action, array $params): void
     {
@@ -119,12 +143,22 @@ class Router
             throw new \Exception("Контроллер не найден: $class");
         }
 
-        $controller = new $class();
+        $reflectionClass = new \ReflectionClass($class);
 
-        if (!method_exists($controller, $method)) {
+        if (!$reflectionClass->hasMethod($method)) {
             throw new \Exception("Метод не найден: $method");
         }
 
-        $controller->$method(...$params);
+        $controller = $reflectionClass->newInstance();
+
+        $reflectionMethod = $reflectionClass->getMethod($method);
+        $arguments = [];
+
+        foreach ($reflectionMethod->getParameters() as $param) {
+            $name = $param->getName();
+            $arguments[] = $params[$name] ?? null;
+        }
+
+        $reflectionMethod->invokeArgs($controller, $arguments);
     }
 }
