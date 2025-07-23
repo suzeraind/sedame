@@ -9,15 +9,6 @@
         />
         <title><?= htmlspecialchars($title ?? 'Мой сайт') ?></title>
 
-        <!-- Подключаем Tailwind CSS через CDN (для прототипа) -->
-        <script src="https://cdn.tailwindcss.com"></script>
-
-        <!-- Шрифт Inter для лучшего вида -->
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-            rel="stylesheet"
-        >
-
         <!-- Ваши скрипты (оставлены как есть) -->
         <script src="/assets/scripts/browser@4.js"></script>
         <script
@@ -32,10 +23,6 @@
         />
 
         <style>
-            body {
-                font-family: 'Inter', sans-serif;
-            }
-
             .container {
                 @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl;
             }
