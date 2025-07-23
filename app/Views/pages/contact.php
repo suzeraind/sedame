@@ -1,4 +1,3 @@
-<!-- Hero Section -->
 <section class="bg-gradient-to-br from-indigo-600 to-indigo-800 py-16">
     <div class="container mx-auto px-6 text-center text-white">
         <h1 class="text-4xl md:text-5xl font-bold mb-4">Свяжитесь с нами</h1>

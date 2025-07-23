@@ -1,6 +1,8 @@
-<header class="bg-white shadow-sm sticky top-0 z-50">
+<header
+    class="bg-white shadow-sm sticky top-0 z-50"
+    x-data="{ mobileMenuOpen: false }"
+>
     <div class="container mx-auto flex items-center justify-between p-4">
-        <!-- Логотип -->
         <a
             href="/"
             class="text-2xl font-bold text-indigo-600"
@@ -8,7 +10,6 @@
             <?= htmlspecialchars($site_name) ?>
         </a>
 
-        <!-- Навигация (десктоп) -->
         <nav class="hidden md:flex items-center space-x-2">
             <a
                 href="/"
@@ -39,13 +40,12 @@
             </a>
         </nav>
 
-        <!-- Кнопка мобильного меню -->
         <button
-            class="md:hidden text-gray-600 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded p-2"
+            class="md:hidden text-gray-600 hover:text-indigo-600 focus:outline-none cursor-pointer focus:ring-2 focus:ring-indigo-500 rounded p-2"
             type="button"
             aria-controls="mobile-menu"
-            aria-expanded="false"
-            onclick="toggleMobileMenu()"
+            :aria-expanded="mobileMenuOpen"
+            @click="mobileMenuOpen = !mobileMenuOpen"
         >
             <span class="sr-only">Открыть меню</span>
             <svg
@@ -65,43 +65,47 @@
         </button>
     </div>
 
-    <!-- Мобильное меню -->
     <div
         id="mobile-menu"
-        class="hidden md:hidden bg-white border-t border-gray-200"
+        x-show="mobileMenuOpen"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="md:hidden bg-white border-t border-gray-200"
+        role="menu"
+        aria-orientation="vertical"
     >
         <nav class="flex flex-col">
             <a
                 href="/"
+                @click="mobileMenuOpen = false"
                 class="nav-link px-5 py-3 text-gray-700 hover:bg-gray-100 hover:text-indigo-600
                        <?= ($active_page ?? '') === 'home' ? 'bg-indigo-50 text-indigo-600 font-medium' : '' ?>"
+                role="menuitem"
             >
                 Главная
             </a>
             <a
                 href="/about"
+                @click="mobileMenuOpen = false"
                 class="nav-link px-5 py-3 text-gray-700 hover:bg-gray-100 hover:text-indigo-600
                        <?= ($active_page ?? '') === 'about' ? 'bg-indigo-50 text-indigo-600 font-medium' : '' ?>"
+                role="menuitem"
             >
                 О нас
             </a>
             <a
                 href="/contact"
+                @click="mobileMenuOpen = false"
                 class="nav-link px-5 py-3 text-gray-700 hover:bg-gray-100 hover:text-indigo-600
                        <?= ($active_page ?? '') === 'contact' ? 'bg-indigo-50 text-indigo-600 font-medium' : '' ?>"
+                role="menuitem"
             >
                 Контакты
             </a>
         </nav>
     </div>
 </header>
-
-<!-- Скрипт для мобильного меню -->
-<script>
-    function toggleMobileMenu() {
-        const menu = document.getElementById('mobile-menu');
-        const button = document.querySelector('[aria-controls="mobile-menu"]');
-        const isExpanded = menu.classList.toggle('hidden');
-        button.setAttribute('aria-expanded', !isExpanded);
-    }
-</script>

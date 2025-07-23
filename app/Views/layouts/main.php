@@ -9,12 +9,18 @@
         />
         <title><?= htmlspecialchars($title ?? 'Мой сайт') ?></title>
 
-        <script src="/assets/scripts/browser@4.js"></script>
+        <script
+            src="/assets/scripts/tailwind.js"
+            defer
+        ></script>
         <script
             src="/assets/scripts/main.js"
             defer
         ></script>
-
+        <script
+            src="/assets/scripts/alpine.js"
+            defer
+        ></script>
         <link
             href="/assets/styles/style.css"
             rel="stylesheet"

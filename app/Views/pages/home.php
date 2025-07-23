@@ -27,7 +27,6 @@
     <?php endforeach; ?>
 </div>
 
-<!-- Если постов нет -->
 <?php if (empty($posts)): ?>
     <div class="text-center mt-10">
         <p class="text-gray-500 text-lg">Пока нет доступных постов.</p>
