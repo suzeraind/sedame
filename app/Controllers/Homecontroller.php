@@ -10,6 +10,7 @@ use App\Core\Attributes\Route;
 class Homecontroller extends Controller
 {
 
+    #[Route('GET', '/')]
     #[Route('GET', '/home')]
     public function index()
     {

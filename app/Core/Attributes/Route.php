@@ -2,7 +2,9 @@
 
 namespace App\Core\Attributes;
 
-#[\Attribute]
+#[\Attribute(
+    flags: \Attribute::IS_REPEATABLE | \Attribute::TARGET_METHOD
+)]
 class Route
 {
     /**
