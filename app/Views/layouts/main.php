@@ -9,10 +9,7 @@
         />
         <title><?= htmlspecialchars($title ?? 'Мой сайт') ?></title>
 
-        <script
-            src="/assets/scripts/tailwind.js"
-            defer
-        ></script>
+        <script src="/assets/scripts/tailwind.js"></script>
         <script
             src="/assets/scripts/main.js"
             defer
