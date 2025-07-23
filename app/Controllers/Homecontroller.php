@@ -2,16 +2,15 @@
 
 namespace App\Controllers;
 
+use App\Core\Http;
 use App\Core\Controller;
 use App\Core\Attributes\Route;
-
-
 
 class Homecontroller extends Controller
 {
 
-    #[Route('GET', '/')]
-    #[Route('GET', '/home')]
+    #[Route(Http::GET, '/')]
+    #[Route(Http::GET, '/home')]
     public function index()
     {
         $data = [
@@ -27,9 +26,27 @@ class Homecontroller extends Controller
         return $this->render('pages/home', $data);
     }
 
-    #[Route('GET', '/hello/{name}')]
+    #[Route(Http::GET, '/hello/{name}')]
     public function hello(string $name): void
     {
         echo "Hello {$name}";
     }
+
+
+    #[Route(Http::POST, '/json')]
+    public function jsonPostResponse()
+    {
+        $this->json([
+            'hello' => 'post'
+        ]);
+    }
+
+    #[Route(Http::GET, '/json')]
+    public function jsonGetResponse()
+    {
+        $this->json([
+            'hello' => 'get'
+        ]);
+    }
+
 }
