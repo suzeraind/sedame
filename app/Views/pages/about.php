@@ -16,7 +16,7 @@
             bg-white">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="md:w-1/2">
+                <div class="w-full md:w-1/2">
                     <div class="placeholder h-64 md:h-80 flex items-center justify-center">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -106,6 +106,7 @@
                     <p class="text-gray-600">Каждый проект проходит строгий контроль качества и тестирование.</p>
                 </div>
                 <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                    <!-- Иконка: "i" в круге (информация / доверие) -->
                     <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -118,13 +119,14 @@
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 stroke-width="2"
-                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20V2c0-.656.126-1.283.356-1.857m0 0a3 3 0 105.356-1.857M7 20v-2c0-.656-.126-1.283-.356-1.857m0 0a3 3 0 105.356-1.857"
+                                d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
                             />
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-3">Доверие</h3>
-                    <p class="text-gray-600">Мы строим долгосрочные отношения с клиентами на основе честности и
-                        прозрачности.</p>
+                    <p class="text-gray-600">
+                        Мы строим долгосрочные отношения с клиентами на основе честности и прозрачности.
+                    </p>
                 </div>
             </div>
         </div>
