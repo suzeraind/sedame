@@ -26,6 +26,26 @@ class Homecontroller extends Controller
         return $this->render('pages/home', $data);
     }
 
+
+    #[Route(Http::GET, '/about')]
+    public function about()
+    {
+        return $this->render('pages/about', [
+            'team' => [
+                ['name' => 'Анна Петрова', 'role' => 'CEO', 'image' => 'https://via.placeholder.com/149'],
+                ['name' => 'Дмитрий Сидоров', 'role' => 'CTO', 'image' => 'https://via.placeholder.com/149'],
+                ['name' => 'Елена Козлова', 'role' => 'Дизайнер', 'image' => 'https://via.placeholder.com/149'],
+                ['name' => 'Иван Новиков', 'role' => 'Разработчик', 'image' => 'https://via.placeholder.com/149'],
+            ]
+        ]);
+    }
+
+    #[Route(Http::GET, '/contact')]
+    public function contact()
+    {
+        return $this->render('pages/contact');
+    }
+
     #[Route(Http::GET, '/hello/{name}')]
     public function hello(string $name): void
     {
