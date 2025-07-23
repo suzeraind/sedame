@@ -1,4 +1,5 @@
 
 (() => {
-  console.log('Hello from JS!');
+  const node = document.getElementById('app');
+  console.log(node);
 })();
