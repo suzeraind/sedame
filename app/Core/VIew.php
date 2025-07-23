@@ -48,12 +48,12 @@ class View
      * @param array $data
      * @return void
      */
-    public function partial(string $name, array $data = []): void
+    public function component(string $name, array $data = []): void
     {
-        $path = VIEW_PATH . "/partials/{$name}.php";
+        $path = VIEW_PATH . "/components/{$name}.php";
 
         if (!file_exists($path)) {
-            throw new RuntimeException("Partial not found: {$path}");
+            throw new RuntimeException("Component not found: {$path}");
         }
 
         extract($data, EXTR_SKIP);

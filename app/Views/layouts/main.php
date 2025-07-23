@@ -15,12 +15,12 @@
 
     <body>
         <div class="container">
-            <?php $this->partial('header', ['site_name' => 'Мой Блог']) ?>
+            <?php $this->component('header', ['site_name' => 'Мой Блог']) ?>
             <h1 class="text-3xl font-bold underline">Bambalelo</h1>
             <?= $content ?? '' ?>
 
         </div>
-        <?php $this->partial('footer') ?>
+        <?php $this->component('footer') ?>
     </body>
 
 </html>
