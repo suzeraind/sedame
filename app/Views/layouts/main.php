@@ -41,7 +41,13 @@
                 text-align: center;
             }
         </style>
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <script src="./assets/scripts/browser@4.js"></script>
+        <script src="./assets/scripts/main.js"></script>
+        <link
+            href="./assets/styles/style.css"
+            rel="stylesheet"
+        >
+        </link>
     </head>
 
     <body>
