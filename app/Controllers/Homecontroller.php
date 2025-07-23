@@ -3,12 +3,14 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Attributes\Route;
 
 
 
 class Homecontroller extends Controller
 {
 
+    #[Route('GET', '/home')]
     public function index()
     {
         $data = [
