@@ -1,4 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f4f4f4;
+}
 
-h1 {
-    color: red;
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    margin-bottom: 20px;
+}
+
+nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #007cba;
+}
+
+nav a.active {
+    font-weight: bold;
+}
+
+footer {
+    margin-top: 31px;
+    color: #777;
+    text-align: center;
 }

@@ -2,30 +2,39 @@
 
 namespace App\Controllers;
 
+use App\Core\View;
+
 abstract class Controller
 {
+    public function __construct(
+        protected View $view = new View
+    ) {
+    }
 
     /**
-     * Рендерит вид и оборачивает его в основной шаблон
-     *
-     * @param string $view Путь к файлу вида (без расширения)
-     * @param array $data Данные для передачи в шаблон
+     * Рендер необходимого компонента
+     * 
+     * @param string $view
+     * @param mixed $data
+     * @param mixed $layout
      * @return void
      */
-    protected function render(string $view, array $data = [], $layout = 'main'): void
+    protected function render(string $view, ?array $data = [], ?string $layout = 'main'): void
     {
-        $viewPath = VIEW_PATH . "/{$view}.php";
+        $this->view
+            ->with($data)
+            ->layout($layout)
+            ->render($view);
+    }
 
-        if (!file_exists($viewPath)) {
-            throw new \Exception("Шаблон не найден: {$viewPath}");
-        }
-
-        ob_start();
-        extract($data);
-        include $viewPath;
-        $content = ob_get_clean();
-
-        include VIEW_PATH . "/layouts/{$layout}.php";
+    /**
+     * Возвращает прямой доступ к View
+     * 
+     * @return View
+     */
+    protected function view(): View
+    {
+        return $this->view;
     }
 
     /**
@@ -40,11 +49,12 @@ abstract class Controller
         exit;
     }
 
+
     /**
-     * Возвращает JSON-ответ
-     *
+     *  Возвращает данные в JSON формате
+     * 
      * @param array $data
-     * @return void
+     * @return never
      */
     protected function json(array $data): void
     {
