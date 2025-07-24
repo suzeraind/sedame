@@ -20,7 +20,7 @@ class Database
         return self::$instance ??= new self();
     }
 
-    public function getPdo()
+    public function getPdo(): PDO
     {
         return $this->pdo;
     }
