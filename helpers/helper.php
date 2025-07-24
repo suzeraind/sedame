@@ -42,9 +42,7 @@ if (!function_exists('pp')) {
                     <div style="{$styles['wrapper']}">
                         <div style="{$styles['fileInfo']}">{$file}:{$line}</div>
                         <div style="{$styles['codeWrapper']}">
-                            <pre style="margin:0;color:#e5e7eb;font-size:.875rem;line-height:1.5;white-space:pre-wrap;word-break:break-word;">
-                                {$output}
-                            </pre>
+                            <pre style="margin:0;color:#e5e7eb;font-size:.875rem;line-height:1.5;white-space:pre-wrap;word-break:break-word;">{$output}</pre>
                         </div>
                     </div>
                 </div>
