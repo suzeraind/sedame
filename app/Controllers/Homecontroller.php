@@ -22,7 +22,7 @@ class Homecontroller extends Controller
                 ['title' => 'Третья статья', 'desc' => 'Frontend без JS-фреймворков'],
             ]
         ];
-
+        pp($data);
         return $this->render('pages/home', $data);
     }
 
