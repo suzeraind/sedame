@@ -15,14 +15,12 @@ class Homecontroller extends Controller
     {
         $data = [
             'title' => 'Главная — Мой сайт',
-            'active_page' => 'home',
             'posts' => [
                 ['title' => 'Первай', 'desc' => 'Про PHP и шаблоны'],
                 ['title' => 'Вторая статья', 'desc' => 'Как работает автозагрузка'],
                 ['title' => 'Третья статья', 'desc' => 'Frontend без JS-фреймворков'],
             ]
         ];
-        pp($data);
         return $this->render('pages/home', $data);
     }
 
