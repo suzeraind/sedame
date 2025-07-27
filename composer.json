@@ -16,11 +16,24 @@
     "dev": [
       "Composer\\Config::disableProcessTimeout",
       "php -S localhost:3333 -t public -d display_errors=1 -d error_reporting=E_ALL"
-    ]
+    ],
+    "test": "phpunit --bootstrap bootstrap/app.php --colors=always --testdox tests"
   },
   "autoload": {
     "psr-4": {
       "App\\": "app/"
+    },
+    "files": [
+      "config/constants.php",
+      "helpers/helper.php"
+    ]
+  },
+  "require-dev": {
+    "phpunit/phpunit": "12"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
     }
   }
 }
