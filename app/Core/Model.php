@@ -1,37 +1,30 @@
 <?php
 
+namespace App\Core;
+
 abstract class Model
 {
     protected string $table;
     protected string $primaryKey = 'id';
-
-    abstract protected function fillable();
-
-    public function query()
-    {
-        return new QueryBuilder()->table($this->table);
-    }
 
     public function all()
     {
         return $this->query()->get();
     }
 
-    public function find($id)
+    public function query()
     {
-        return $this->query()
-            ->where($this->primaryKey, '=', $id)
-            ->first();
-    }
-
-    public function where($column, $operator, $value = null)
-    {
-        return $this->query()->where($column, $operator, $value);
+        return new QueryBuilder()->table($this->table);
     }
 
     public function firstWhere($column, $operator, $value = null)
     {
         return $this->where($column, $operator, $value)->first();
+    }
+
+    public function where($column, $operator, $value = null)
+    {
+        return $this->query()->where($column, $operator, $value);
     }
 
     public function create(array $data)
@@ -46,6 +39,20 @@ abstract class Model
         }
 
         return false;
+    }
+
+    abstract protected function fillable();
+
+    public function find($id)
+    {
+        return $this->query()
+            ->where($this->primaryKey, '=', $id)
+            ->first();
+    }
+
+    protected function getLastInsertId()
+    {
+        return Database::getInstance()->getPdo()->lastInsertId();
     }
 
     public function update($id, array $data)
@@ -69,10 +76,5 @@ abstract class Model
         return $this->query()
             ->where($this->primaryKey, '=', $id)
             ->delete();
-    }
-
-    protected function getLastInsertId()
-    {
-        return Database::getInstance()->getPdo()->lastInsertId();
     }
 }

@@ -1,21 +1,26 @@
 <?php
 
-use App\Core\Database;
+namespace App\Core;
+
+use PDO;
+
 class QueryBuilder
 {
 
-    protected string $table;
-    protected $conditions = [];
-    protected $bindings = [];
-    protected $select = '*';
-    protected int $limit;
-    protected string $orderBy;
-    protected $joins = [];
+    protected string $table = '';
+    protected array $conditions = [];
+    protected array $bindings = [];
+    protected string $select = '*';
+    protected int $limit = 10;
+    protected string $orderBy = 'created_at';
+    protected array $joins = [];
+    protected ?PDO $pdo;
 
-    public function __construct(
-        protected PDO $pdo = Database::getInstance()->getPdo()
-    ) {
+    public function __construct($pdo = null)
+    {
+        $this->pdo = $pdo ?? Database::getInstance()->getPdo();
     }
+
     public function table($table)
     {
         $this->table = $table;
@@ -48,12 +53,6 @@ class QueryBuilder
         return $this;
     }
 
-    public function limit($limit)
-    {
-        $this->limit = $limit;
-        return $this;
-    }
-
     public function orderBy($column, $direction = 'ASC')
     {
         $this->orderBy = "{$column} {$direction}";
@@ -63,6 +62,19 @@ class QueryBuilder
     public function join($table, $first, $operator, $second, $type = 'INNER')
     {
         $this->joins[] = "{$type} JOIN {$table} ON {$first} {$operator} {$second}";
+        return $this;
+    }
+
+    public function first()
+    {
+        $this->limit(1);
+        $result = $this->get();
+        return $result ? $result[0] : null;
+    }
+
+    public function limit($limit)
+    {
+        $this->limit = $limit;
         return $this;
     }
 
@@ -92,13 +104,6 @@ class QueryBuilder
         return $stmt->fetchAll();
     }
 
-    public function first()
-    {
-        $this->limit(1);
-        $result = $this->get();
-        return $result ? $result[0] : null;
-    }
-
     public function count()
     {
         $sql = "SELECT COUNT(*) as count FROM {$this->table}";
@@ -110,7 +115,7 @@ class QueryBuilder
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($this->bindings);
 
-        return (int) $stmt->fetch()['count'];
+        return (int)$stmt->fetch()['count'];
     }
 
     public function insert(array $data)
