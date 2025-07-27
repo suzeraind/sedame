@@ -4,7 +4,7 @@ namespace App\Core;
 
 abstract class Model
 {
-    protected string $table;
+    protected string $table = '';
     protected string $primaryKey = 'id';
 
     public function all()

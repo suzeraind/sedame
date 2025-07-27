@@ -132,8 +132,12 @@ class QueryBuilder
     public function update(array $data)
     {
         $setParts = [];
-        foreach (array_keys($data) as $column) {
-            $setParts[] = "$column = :$column";
+        $bindings = [];
+
+        // Подготавливаем SET часть
+        foreach ($data as $column => $value) {
+            $setParts[] = "$column = ?";
+            $bindings[] = $value;
         }
         $setClause = implode(', ', $setParts);
 
@@ -141,11 +145,11 @@ class QueryBuilder
 
         if (!empty($this->conditions)) {
             $sql .= " WHERE " . implode(' AND ', $this->conditions);
-            $data = array_merge($data, $this->bindings);
+            $bindings = array_merge($bindings, $this->bindings);
         }
 
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute($data);
+        return $stmt->execute($bindings);
     }
 
     public function delete()
