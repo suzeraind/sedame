@@ -96,7 +96,6 @@ class Router
     private function registerAttributes(\ReflectionMethod $method, string $className): void
     {
         $middlewares = $this->extractMiddlewares($method);
-
         foreach ($method->getAttributes(Route::class) as $attr) {
             $route = $attr->newInstance();
             $methodType = strtoupper(trim($route->method));
@@ -167,8 +166,8 @@ class Router
             if (preg_match($route['pattern'], $uri, $matches)) {
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
 
-                if (!$this->runMiddlewares($route['middlewares'])) {
-                    return; 
+                if (!$this->runMiddlewares($route['middlewares'] ?? [])) {
+                    return;
                 }
 
                 $this->callAction($route['action'], $params);
