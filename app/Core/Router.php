@@ -3,11 +3,12 @@
 namespace App\Core;
 
 use App\Core\Attributes\Route;
+use App\Core\Attributes\Middleware;
 
 class Router
 {
     /**
-     * @var array<string, array<int, array{pattern: string, path: string, action: string}>>
+     * @var array<string, array<int, array{pattern: string, path: string, action: string, middlewares: array}>>
      */
     private array $routes = [
         'GET' => [],
@@ -94,6 +95,8 @@ class Router
      */
     private function registerAttributes(\ReflectionMethod $method, string $className): void
     {
+        $middlewares = $this->extractMiddlewares($method);
+
         foreach ($method->getAttributes(Route::class) as $attr) {
             $route = $attr->newInstance();
             $methodType = strtoupper(trim($route->method));
@@ -108,8 +111,27 @@ class Router
                 'pattern' => $pattern,
                 'path' => $route->path,
                 'action' => "$className@{$method->getName()}",
+                'middlewares' => $middlewares,
             ];
         }
+    }
+
+    /**
+     * Extracts middleware attributes from a method.
+     *
+     * @param \ReflectionMethod $method
+     * @return array
+     */
+    private function extractMiddlewares(\ReflectionMethod $method): array
+    {
+        $middlewares = [];
+
+        foreach ($method->getAttributes(Middleware::class) as $attr) {
+            $middleware = $attr->newInstance();
+            $middlewares = array_merge($middlewares, (array) $middleware->middlewares);
+        }
+
+        return $middlewares;
     }
 
     /**
@@ -123,7 +145,6 @@ class Router
         $pattern = preg_replace('#\\{([a-zA-Z0-9_]+)\\}#', '(?P<\\1>[^/]+)', $path);
         return '#^' . rtrim($pattern, '/') . '/?$#';
     }
-
 
     /**
      * Dispatches the request to the appropriate route.
@@ -145,12 +166,59 @@ class Router
         foreach ($this->routes[$method] as $route) {
             if (preg_match($route['pattern'], $uri, $matches)) {
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+
+                if (!$this->runMiddlewares($route['middlewares'])) {
+                    return; 
+                }
+
                 $this->callAction($route['action'], $params);
                 return;
             }
         }
 
         $this->handleNotFound($uri);
+    }
+
+    /**
+     * Runs middleware chain.
+     *
+     * @param array $middlewares
+     * @return bool
+     */
+    private function runMiddlewares(array $middlewares): bool
+    {
+        foreach ($middlewares as $middleware) {
+            $middlewareClass = $this->resolveMiddlewareClass($middleware);
+
+            if (class_exists($middlewareClass)) {
+                $instance = new $middlewareClass();
+
+                if (method_exists($instance, 'handle')) {
+                    $result = $instance->handle();
+
+                    if ($result === false) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Resolves middleware class name.
+     *
+     * @param string $middleware
+     * @return string
+     */
+    private function resolveMiddlewareClass(string $middleware): string
+    {
+        if (class_exists($middleware)) {
+            return $middleware;
+        }
+
+        return "App\\Core\\Middleware\\{$middleware}";
     }
 
     /**
@@ -179,7 +247,6 @@ class Router
             echo "Page Not Found.";
         }
     }
-
 
     /**
      * Calls the action associated with a route.
@@ -215,9 +282,9 @@ class Router
             if (isset($params[$name])) {
                 if ($type instanceof \ReflectionNamedType) {
                     $arguments[] = match ($type->getName()) {
-                        'int' => (int)$params[$name],
-                        'float' => (float)$params[$name],
-                        'bool' => (bool)$params[$name],
+                        'int' => (int) $params[$name],
+                        'float' => (float) $params[$name],
+                        'bool' => (bool) $params[$name],
                         default => $params[$name],
                     };
                 } else {

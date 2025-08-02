@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\Http;
 use App\Core\Controller;
 use App\Core\Attributes\Route;
+use App\Core\Attributes\Middleware;
 
 class Homecontroller extends Controller
 {
@@ -46,6 +47,7 @@ class Homecontroller extends Controller
      * Renders the contact page.
      */
     #[Route(Http::GET, '/contact')]
+    #[Middleware('AuthMiddleware')]
     public function contact(): void
     {
         $this->render('contact');
