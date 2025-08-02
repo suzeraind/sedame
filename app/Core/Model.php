@@ -7,6 +7,11 @@ abstract class Model
     protected string $table = '';
     protected string $primaryKey = 'id';
 
+    public static function inst()
+    {
+        return new static();
+    }
+
     public function all()
     {
         return $this->query()->get();
