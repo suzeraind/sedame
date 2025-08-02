@@ -6,22 +6,27 @@ use RuntimeException;
 
 class View
 {
+    /**
+     * @var array<string, mixed>
+     */
     private array $data = [];
+
+    /**
+     * @var string|null
+     */
     private ?string $layout = null;
 
     /**
-     * Устанавливает переменные для шаблона
+     * Set variables for the view.
      *
-     * @param string|array $key
+     * @param string|array<string, mixed> $key
      * @param mixed $value
      * @return $this
      */
     public function with(string|array $key, mixed $value = null): self
     {
         if (is_array($key)) {
-            foreach ($key as $k => $v) {
-                $this->data[$k] = $v;
-            }
+            $this->data = array_merge($this->data, $key);
         } else {
             $this->data[$key] = $value;
         }
@@ -30,7 +35,7 @@ class View
     }
 
     /**
-     * Устанавливает layout
+     * Set the layout for the view.
      *
      * @param string $layout
      * @return $this
@@ -42,10 +47,10 @@ class View
     }
 
     /**
-     * Рендерит частичный шаблон
+     * Render a view component.
      *
      * @param string $name
-     * @param array $data
+     * @param array<string, mixed> $data
      * @return void
      */
     public function component(string $name, array $data = []): void
@@ -61,14 +66,15 @@ class View
     }
 
     /**
-     * Рендерит основной шаблон и вставляет контент
+     * Render the main view and insert content.
      *
      * @param string $view
      * @return void
+     * @throws \Exception
      */
     public function render(string $view): void
     {
-        $viewPath = VIEW_PATH . "/{$view}.php";
+        $viewPath = VIEW_PATH . "/pages/{$view}.php";
 
         if (!file_exists($viewPath)) {
             throw new \Exception("View not found: {$viewPath}");

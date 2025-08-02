@@ -6,6 +6,9 @@ use App\Core\Attributes\Route;
 
 class Router
 {
+    /**
+     * @var array<string, array<int, array{pattern: string, path: string, action: string}>>
+     */
     private array $routes = [
         'GET' => [],
         'POST' => [],
@@ -16,18 +19,31 @@ class Router
         'HEAD' => [],
     ];
 
+    /**
+     * Router constructor.
+     *
+     * Loads routes and dispatches the current request.
+     */
     public function __construct()
     {
         $this->loadRoutes();
         $this->dispatch();
     }
 
+    /**
+     * Loads all routes from controller files.
+     *
+     * This method scans the Controllers directory, finds all controller classes,
+     * and registers routes based on the Route attributes in the controller methods.
+     *
+     * @return void
+     */
     private function loadRoutes(): void
     {
         $controllersPath = realpath(__DIR__ . '/../Controllers/') . DIRECTORY_SEPARATOR;
 
         if (!is_dir($controllersPath)) {
-            die("Папка контроллеров не найдена: $controllersPath");
+            die("Controllers directory not found: $controllersPath");
         }
 
         $iterator = new \RecursiveIteratorIterator(
@@ -42,12 +58,15 @@ class Router
             }
 
             $realPath = $file->getRealPath();
+            if ($realPath === false) {
+                continue;
+            }
             $foundFiles[] = $realPath;
 
             $normalizedPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $realPath);
             $relativePath = substr($normalizedPath, strlen($controllersPath));
             $relativeNamespace = str_replace(DIRECTORY_SEPARATOR, '\\', $relativePath);
-            $relativeNamespace = preg_replace('/\.php$/', '', $relativeNamespace);
+            $relativeNamespace = preg_replace('/\\.php$/', '', $relativeNamespace);
             $className = 'App\\Controllers\\' . $relativeNamespace;
 
             if (!class_exists($className)) {
@@ -62,10 +81,17 @@ class Router
         }
 
         if (empty($foundFiles)) {
-            die("Не найдено ни одного PHP-файла в папке: $controllersPath");
+            die("No PHP files found in directory: $controllersPath");
         }
     }
 
+    /**
+     * Registers routes from a method's attributes.
+     *
+     * @param \ReflectionMethod $method
+     * @param string $className
+     * @return void
+     */
     private function registerAttributes(\ReflectionMethod $method, string $className): void
     {
         foreach ($method->getAttributes(Route::class) as $attr) {
@@ -86,23 +112,33 @@ class Router
         }
     }
 
+    /**
+     * Converts a route path to a regex pattern.
+     *
+     * @param string $path
+     * @return string
+     */
     private function convertPathToRegex(string $path): string
     {
-        $pattern = preg_replace('#\{([a-zA-Z0-9_]+)\}#', '(?P<\1>[^/]+)', $path);
+        $pattern = preg_replace('#\\{([a-zA-Z0-9_]+)\\}#', '(?P<\\\1>[^/]+)', $path);
         return '#^' . rtrim($pattern, '/') . '/?$#';
     }
 
 
+    /**
+     * Dispatches the request to the appropriate route.
+     *
+     * @return void
+     */
     private function dispatch(): void
     {
         $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
-
         $uri = rtrim($uri, '/') ?: '/';
 
         if (!isset($this->routes[$method])) {
             http_response_code(405);
-            echo "Метод не поддерживается.";
+            echo "Method Not Allowed.";
             return;
         }
 
@@ -114,39 +150,57 @@ class Router
             }
         }
 
-        $allowedMethods = [];
+        $this->handleNotFound($uri);
+    }
 
-        foreach ($this->routes as $m => $routes) {
+    /**
+     * Handles the case where no route is found.
+     *
+     * @param string $uri
+     * @return void
+     */
+    private function handleNotFound(string $uri): void
+    {
+        $allowedMethods = [];
+        foreach ($this->routes as $method => $routes) {
             foreach ($routes as $route) {
                 if (preg_match($route['pattern'], $uri)) {
-                    $allowedMethods[] = $m;
+                    $allowedMethods[] = $method;
                 }
             }
         }
 
         if (!empty($allowedMethods)) {
             http_response_code(405);
-            header('Allow: ' . implode(', ', $allowedMethods));
-            echo "Метод не разрешён для этого адреса.";
+            header('Allow: ' . implode(', ', array_unique($allowedMethods)));
+            echo "Method Not Allowed for this URI.";
         } else {
             http_response_code(404);
-            echo "Страница не найдена.";
+            echo "Page Not Found.";
         }
     }
 
 
+    /**
+     * Calls the action associated with a route.
+     *
+     * @param string $action
+     * @param array<string, mixed> $params
+     * @return void
+     * @throws \Exception
+     */
     private function callAction(string $action, array $params): void
     {
         [$class, $method] = explode('@', $action);
 
         if (!class_exists($class)) {
-            throw new \Exception("Контроллер не найден: $class");
+            throw new \Exception("Controller not found: $class");
         }
 
         $reflectionClass = new \ReflectionClass($class);
 
         if (!$reflectionClass->hasMethod($method)) {
-            throw new \Exception("Метод не найден: $method");
+            throw new \Exception("Method not found: $method in class $class");
         }
 
         $controller = $reflectionClass->newInstance();
@@ -156,7 +210,24 @@ class Router
 
         foreach ($reflectionMethod->getParameters() as $param) {
             $name = $param->getName();
-            $arguments[] = $params[$name] ?? null;
+            $type = $param->getType();
+
+            if (isset($params[$name])) {
+                if ($type instanceof \ReflectionNamedType) {
+                    $arguments[] = match ($type->getName()) {
+                        'int' => (int)$params[$name],
+                        'float' => (float)$params[$name],
+                        'bool' => (bool)$params[$name],
+                        default => $params[$name],
+                    };
+                } else {
+                    $arguments[] = $params[$name];
+                }
+            } elseif ($param->isDefaultValueAvailable()) {
+                $arguments[] = $param->getDefaultValue();
+            } else {
+                $arguments[] = null;
+            }
         }
 
         $reflectionMethod->invokeArgs($controller, $arguments);

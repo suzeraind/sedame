@@ -6,30 +6,38 @@ use App\Core\View;
 
 abstract class Controller
 {
-    public function __construct(
-        protected View $view = new View
-    ) {
+    /**
+     * @var View
+     */
+    protected View $view;
+
+    /**
+     * Controller constructor.
+     */
+    public function __construct()
+    {
+        $this->view = new View();
     }
 
     /**
-     * Рендер необходимого компонента
-     * 
+     * Render a view with data and a layout.
+     *
      * @param string $view
-     * @param mixed $data
-     * @param mixed $layout
+     * @param array<string, mixed>|null $data
+     * @param string|null $layout
      * @return void
      */
     protected function render(string $view, ?array $data = [], ?string $layout = 'main'): void
     {
         $this->view
-            ->with($data)
+            ->with($data ?? [])
             ->layout($layout)
             ->render($view);
     }
 
     /**
-     * Возвращает прямой доступ к View
-     * 
+     * Get the view instance.
+     *
      * @return View
      */
     protected function view(): View
@@ -38,7 +46,7 @@ abstract class Controller
     }
 
     /**
-     * Перенаправление на другой URL
+     * Redirect to a different URL.
      *
      * @param string $url
      * @return never
@@ -49,11 +57,10 @@ abstract class Controller
         exit;
     }
 
-
     /**
-     *  Возвращает данные в JSON формате
-     * 
-     * @param array $data
+     * Return data as JSON.
+     *
+     * @param array<string, mixed> $data
      * @return never
      */
     protected function json(array $data): void
@@ -63,3 +70,4 @@ abstract class Controller
         exit;
     }
 }
+

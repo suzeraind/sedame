@@ -8,8 +8,8 @@ namespace App\Core\Attributes;
 class Route
 {
     /**
-     * @param string $method HTTP-методы, например: 'GET', 'POST', 'DELETE'
-     * @param string $path URL-путь
+     * @param string $method HTTP methods, e.g., 'GET', 'POST', 'DELETE'
+     * @param string $path URL path
      */
     public function __construct(
         public string $method,
