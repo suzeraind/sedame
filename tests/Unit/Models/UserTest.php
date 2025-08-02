@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Core\Database;
 use App\Models\User;
 use Exception;
 use PHPUnit\Framework\TestCase;
