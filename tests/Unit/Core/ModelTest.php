@@ -39,7 +39,7 @@ class ModelTest extends TestCase
 
     public function test_query_method_returns_query_builder_with_correct_table(): void
     {
-        $model = new TestModel();
+        $model = new TestModel;
         $queryBuilder = $model->query();
 
         $this->assertInstanceOf(QueryBuilder::class, $queryBuilder);

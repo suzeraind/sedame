@@ -25,7 +25,7 @@ class ViewTest extends TestCase
 
     public function test_with_method_sets_data_correctly_with_key_value(): void
     {
-        $view = new View();
+        $view = new View;
         $view->with('name', 'John Doe');
 
 
@@ -40,7 +40,7 @@ class ViewTest extends TestCase
 
     public function test_with_method_sets_data_correctly_with_array(): void
     {
-        $view = new View();
+        $view = new View;
         $view->with(['name' => 'John Doe', 'age' => 30]);
 
 
@@ -57,7 +57,7 @@ class ViewTest extends TestCase
 
     public function test_layout_method_sets_layout_correctly(): void
     {
-        $view = new View();
+        $view = new View;
         $view->layout('main');
 
 
@@ -74,7 +74,7 @@ class ViewTest extends TestCase
 
         file_put_contents(VIEW_PATH . '/components/test_component.php', '<p>Test Component: <?php echo $component_data; ?></p>');
 
-        $view = new View();
+        $view = new View;
         ob_start();
         $view->component('test_component', ['component_data' => 'Hello']);
         $output = ob_get_clean();
@@ -84,7 +84,7 @@ class ViewTest extends TestCase
 
     public function test_component_method_throws_exception_if_component_not_found(): void
     {
-        $view = new View();
+        $view = new View;
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessageMatches('/Component not found: .*non_existent_component.php/');
         $view->component('non_existent_component');
@@ -95,7 +95,7 @@ class ViewTest extends TestCase
 
         file_put_contents(VIEW_PATH . '/pages/test_view.php', '<h1>Test View</h1><?php echo $data_var; ?>');
 
-        $view = new View();
+        $view = new View;
         $view->with('data_var', 'Some Data');
         ob_start();
         $view->render('test_view');
@@ -111,7 +111,7 @@ class ViewTest extends TestCase
         file_put_contents(VIEW_PATH . '/pages/test_view.php', '<h1>Test View</h1><?php echo $data_var; ?>');
         file_put_contents(VIEW_PATH . '/layouts/test_layout.php', '<html><body><?php echo $content; ?></body></html>');
 
-        $view = new View();
+        $view = new View;
         $view->with('data_var', 'Layout Data')->layout('test_layout');
         ob_start();
         $view->render('test_view');
@@ -122,7 +122,7 @@ class ViewTest extends TestCase
 
     public function test_render_method_throws_exception_if_view_not_found(): void
     {
-        $view = new View();
+        $view = new View;
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/View not found: .*non_existent_view.php/');
         $view->render('non_existent_view');
@@ -133,7 +133,7 @@ class ViewTest extends TestCase
 
         file_put_contents(VIEW_PATH . '/pages/test_view.php', '<h1>Test View</h1>');
 
-        $view = new View();
+        $view = new View;
         $view->layout('non_existent_layout');
         $this->expectException(Exception::class);
         $this->expectExceptionMessageMatches('/Layout not found: .*non_existent_layout.php/');
