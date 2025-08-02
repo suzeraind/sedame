@@ -53,8 +53,13 @@ class RouterTest extends TestCase
         $routesProperty->setAccessible(true);
 
         $processedRoutes = [
-            'GET' => [], 'POST' => [], 'PUT' => [], 'DELETE' => [],
-            'PATCH' => [], 'OPTIONS' => [], 'HEAD' => [],
+            'GET' => [],
+            'POST' => [],
+            'PUT' => [],
+            'DELETE' => [],
+            'PATCH' => [],
+            'OPTIONS' => [],
+            'HEAD' => [],
         ];
 
         $convertMethod = $reflectionClass->getMethod('convertPathToRegex');

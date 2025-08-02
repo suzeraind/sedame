@@ -2,9 +2,10 @@
 
 namespace Tests\Unit\Core;
 
+use PDO;
+use App\Models\User;
 use App\Core\Database;
 use App\Core\QueryBuilder;
-use PDO;
 use PHPUnit\Framework\TestCase;
 
 class QueryBuilderTest extends TestCase
@@ -22,8 +23,9 @@ class QueryBuilderTest extends TestCase
 
     protected function tearDown(): void
     {
-        foreach ($this->createdUserIds as $userId) {
-            $this->pdo->exec("DELETE FROM users WHERE id = {$userId}");
+        $model = new User;
+        foreach ($this->createdUserIds as $id) {
+            $model->delete($id);
         }
         $this->createdUserIds = [];
         parent::tearDown();

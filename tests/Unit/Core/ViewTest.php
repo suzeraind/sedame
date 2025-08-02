@@ -11,7 +11,7 @@ class ViewTest extends TestCase
 {
     protected function tearDown(): void
     {
-        
+
         if (file_exists(VIEW_PATH . '/pages/test_view.php')) {
             unlink(VIEW_PATH . '/pages/test_view.php');
         }
@@ -27,7 +27,7 @@ class ViewTest extends TestCase
     {
         $view = new View();
         $view->with('name', 'John Doe');
-        
+
 
         $reflection = new \ReflectionClass($view);
         $property = $reflection->getProperty('data');
@@ -71,7 +71,7 @@ class ViewTest extends TestCase
 
     public function test_component_method_renders_component(): void
     {
-        
+
         file_put_contents(VIEW_PATH . '/components/test_component.php', '<p>Test Component: <?php echo $component_data; ?></p>');
 
         $view = new View();
@@ -92,7 +92,7 @@ class ViewTest extends TestCase
 
     public function test_render_method_renders_view_without_layout(): void
     {
-        
+
         file_put_contents(VIEW_PATH . '/pages/test_view.php', '<h1>Test View</h1><?php echo $data_var; ?>');
 
         $view = new View();
@@ -102,12 +102,12 @@ class ViewTest extends TestCase
         $output = ob_get_clean();
 
         $this->assertStringContainsString('<h1>Test View</h1>Some Data', $output);
-        $this->assertStringNotContainsString('<html>', $output); 
+        $this->assertStringNotContainsString('<html>', $output);
     }
 
     public function test_render_method_renders_view_with_layout(): void
     {
-        
+
         file_put_contents(VIEW_PATH . '/pages/test_view.php', '<h1>Test View</h1><?php echo $data_var; ?>');
         file_put_contents(VIEW_PATH . '/layouts/test_layout.php', '<html><body><?php echo $content; ?></body></html>');
 
@@ -130,7 +130,7 @@ class ViewTest extends TestCase
 
     public function test_render_method_throws_exception_if_layout_not_found(): void
     {
-        
+
         file_put_contents(VIEW_PATH . '/pages/test_view.php', '<h1>Test View</h1>');
 
         $view = new View();

@@ -2,14 +2,13 @@
 
 namespace Tests\Unit\Models;
 
-use App\Core\Database;
 use App\Models\User;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-    private User $userModel;
+    private User $model;
     private array $createdUsers = [];
 
     public function test_can_create_user(): void
@@ -21,7 +20,7 @@ class UserTest extends TestCase
             'active' => 1
         ];
 
-        $user = $this->userModel->create($userData);
+        $user = $this->model->create($userData);
 
         $this->assertIsArray($user);
         $this->assertArrayHasKey('id', $user);
@@ -29,7 +28,6 @@ class UserTest extends TestCase
         $this->assertEquals($userData['email'], $user['email']);
         $this->assertEquals(1, $user['active']);
 
-        // Сохраняем ID для автоматического удаления
         $this->createdUsers[] = $user['id'];
     }
 
@@ -47,7 +45,7 @@ class UserTest extends TestCase
 
         $userId = $user['id'];
 
-        $foundUser = $this->userModel->find($userId);
+        $foundUser = $this->model->find($userId);
 
         $this->assertIsArray($foundUser);
         $this->assertEquals($userId, $foundUser['id']);
@@ -64,7 +62,7 @@ class UserTest extends TestCase
         ];
 
         $userData = array_merge($defaultData, $data);
-        $user = $this->userModel->create($userData);
+        $user = $this->model->create($userData);
 
         if ($user) {
             $this->createdUsers[] = $user['id'];
@@ -80,17 +78,16 @@ class UserTest extends TestCase
             'email' => $this->generateUniqueEmail()
         ]);
 
-        $userId = $user['id'];
 
         $updatedData = [
             'name' => 'Updated Name',
             'active' => 0
         ];
 
-        $updatedUser = $this->userModel->update($userId, $updatedData);
+        $updatedUser = $this->model->update($user['id'], $updatedData);
 
         $this->assertIsArray($updatedUser);
-        $this->assertEquals($userId, $updatedUser['id']);
+        $this->assertEquals($user['id'], $updatedUser['id']);
         $this->assertEquals('Updated Name', $updatedUser['name']);
         $this->assertEquals(0, $updatedUser['active']);
     }
@@ -104,17 +101,17 @@ class UserTest extends TestCase
 
         $userId = $user['id'];
 
-        $deleted = $this->userModel->delete($userId);
+        $deleted = $this->model->delete($userId);
 
         $this->assertTrue($deleted);
 
-        $foundUser = $this->userModel->find($userId);
+        $foundUser = $this->model->find($userId);
         $this->assertNull($foundUser);
     }
 
     public function test_can_get_all_users(): void
     {
-        $users = $this->userModel->all();
+        $users = $this->model->all();
 
         $this->assertIsArray($users);
         if (!empty($users)) {
@@ -125,12 +122,12 @@ class UserTest extends TestCase
     public function test_can_find_user_by_email(): void
     {
         $uniqueEmail = $this->generateUniqueEmail();
-        $user = $this->createUser([
+        $this->createUser([
             'name' => 'Email Test User',
             'email' => $uniqueEmail
         ]);
 
-        $foundUser = $this->userModel->findByEmail($uniqueEmail);
+        $foundUser = $this->model->findByEmail($uniqueEmail);
 
         $this->assertIsArray($foundUser);
         $this->assertEquals($uniqueEmail, $foundUser['email']);
@@ -139,17 +136,15 @@ class UserTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->userModel = User::inst();
+        $this->model = User::inst();
     }
 
     protected function tearDown(): void
     {
-        // Удаляем всех созданных пользователей после каждого теста
         foreach ($this->createdUsers as $userId) {
             try {
-                $this->userModel->delete($userId);
+                $this->model->delete($userId);
             } catch (Exception $e) {
-                // Игнорируем ошибки удаления
             }
         }
         $this->createdUsers = [];
