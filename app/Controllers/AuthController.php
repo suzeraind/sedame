@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Core\Http;
@@ -12,14 +14,23 @@ class AuthController extends Controller
 {
     private User $userModel;
 
-    public function __construct()
+    /**
+     * Constructor for AuthController.
+     * Initializes the parent controller and the User model.
+     *
+     * @param User|null $userModel The user model instance.
+     */
+    public function __construct(?User $userModel = null)
     {
         parent::__construct();
-        $this->userModel = User::inst();
+        $this->userModel = $userModel ?? User::inst();
     }
 
     /**
-     * Show login form only for guests
+     * Displays the login form.
+     * This route is accessible only to guests.
+     *
+     * @return void
      */
     #[Route(Http::GET, '/login')]
     #[Middleware('GuestMiddleware')]
@@ -29,16 +40,19 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle login
+     * Handles the user login process.
+     * Validates credentials and redirects on success, or shows errors on failure.
+     *
+     * @return void
      */
     #[Route(Http::POST, '/login')]
     #[Middleware('GuestMiddleware')]
     public function login(): void
     {
-        $email = trim($_POST['email'] ?? '');
-        $password = $_POST['password'] ?? '';
+        $email = trim((string)($_POST['email'] ?? ''));
+        $password = (string)($_POST['password'] ?? '');
 
-        if (empty($email) || empty($password)) {
+        if ($email === '' || $password === '') {
             $this->render('auth/login', [
                 'error' => 'Заполните все поля'
             ]);
@@ -47,7 +61,7 @@ class AuthController extends Controller
 
         $user = $this->userModel->findByEmail($email);
 
-        if ($user && password_verify($password, $user['password'])) {
+        if ($user !== null && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['name'] ?? $user['username'];
             $this->redirect('/home');
@@ -60,7 +74,10 @@ class AuthController extends Controller
     }
 
     /**
-     * Show registration form (только для гостей)
+     * Displays the registration form.
+     * This route is accessible only to guests.
+     *
+     * @return void
      */
     #[Route(Http::GET, '/register')]
     #[Middleware('GuestMiddleware')]
@@ -70,28 +87,31 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle registration
+     * Handles the user registration process.
+     * Validates input, creates a new user, and redirects on success, or shows errors on failure.
+     *
+     * @return void
      */
     #[Route(Http::POST, '/register')]
     #[Middleware('GuestMiddleware')]
     public function register(): void
     {
-        $name = trim($_POST['name'] ?? '');
-        $email = trim($_POST['email'] ?? '');
-        $password = $_POST['password'] ?? '';
-        $password_confirm = $_POST['password_confirm'] ?? '';
+        $name = trim((string)($_POST['name'] ?? ''));
+        $email = trim((string)($_POST['email'] ?? ''));
+        $password = (string)($_POST['password'] ?? '');
+        $password_confirm = (string)($_POST['password_confirm'] ?? '');
 
         $errors = [];
 
-        if (empty($name)) {
+        if ($name === '') {
             $errors[] = 'Имя обязательно';
         }
 
-        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = 'Введите корректный email';
         }
 
-        if (empty($password) || strlen($password) < 6) {
+        if ($password === '' || strlen($password) < 6) {
             $errors[] = 'Пароль должен быть не менее 6 символов';
         }
 
@@ -100,7 +120,7 @@ class AuthController extends Controller
         }
 
         if (empty($errors)) {
-            if ($this->userModel->findByEmail($email)) {
+            if ($this->userModel->findByEmail($email) !== null) {
                 $errors[] = 'Пользователь с таким email уже существует';
             }
         }
@@ -134,7 +154,9 @@ class AuthController extends Controller
     }
 
     /**
-     * Logout user
+     * Logs out the current user by destroying the session.
+     *
+     * @return void
      */
     #[Route(Http::GET, '/logout')]
     #[Middleware('AuthMiddleware')]
