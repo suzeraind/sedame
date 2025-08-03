@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Core\Http;
 use App\Core\Controller;
 use App\Core\Attributes\Route;
-use App\Core\Attributes\Middleware;
 
 class Homecontroller extends Controller
 {
@@ -33,24 +32,18 @@ class Homecontroller extends Controller
     #[Route(Http::GET, '/about')]
     public function about(): void
     {
-        $this->render('about', [
-            'team' => [
-                ['name' => 'Anna Petrova', 'role' => 'CEO', 'image' => 'https://via.placeholder.com/149'],
-                ['name' => 'Dmitry Sidorov', 'role' => 'CTO', 'image' => 'https://via.placeholder.com/149'],
-                ['name' => 'Elena Kozlova', 'role' => 'Designer', 'image' => 'https://via.placeholder.com/149'],
-                ['name' => 'Ivan Novikov', 'role' => 'Developer', 'image' => 'https://via.placeholder.com/149'],
-            ]
-        ]);
+        $this->render('about');
     }
 
+
+
     /**
-     * Renders the contact page.
+     * Renders the showcase page.
      */
-    #[Route(Http::GET, '/contact')]
-    #[Middleware('AuthMiddleware')]
-    public function contact(): void
+    #[Route(Http::GET, '/showcase')]
+    public function showcase(): void
     {
-        $this->render('contact');
+        $this->render('showcase');
     }
 
     /**

@@ -35,7 +35,7 @@ abstract class Model
      */
     public function query(): QueryBuilder
     {
-        return (new QueryBuilder())->table($this->table);
+        return new QueryBuilder()->table($this->table);
     }
 
     /**

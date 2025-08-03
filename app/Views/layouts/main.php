@@ -23,6 +23,11 @@
             rel="stylesheet"
         />
 
+        <!-- Prism.js for code highlighting -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
         <style>
             .container {
                 @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl;
@@ -35,8 +40,8 @@
             id="app"
             class="flex-grow"
         >
-            <?php $this->component('header', ['site_name' => 'My Blog']) ?>
-            <main class="py-8 sm:py-12">
+            <?php $this->component('header', ['site_name' => 'Sedame']) ?>
+            <main class="pt-20 sm:pt-24">
                 <?= $content ?? '' ?>
             </main>
         </div>
