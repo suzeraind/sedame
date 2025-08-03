@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 
     <head>
         <meta charset="UTF-8" />
@@ -7,7 +7,7 @@
             name="viewport"
             content="width=device-width, initial-scale=1.0"
         />
-        <title><?= htmlspecialchars($title ?? 'Мой сайт') ?></title>
+        <title><?= htmlspecialchars($title ?? 'My Website') ?></title>
 
         <script src="/assets/scripts/tailwind.js"></script>
         <script
@@ -35,7 +35,7 @@
             id="app"
             class="flex-grow"
         >
-            <?php $this->component('header', ['site_name' => 'Мой Блог']) ?>
+            <?php $this->component('header', ['site_name' => 'My Blog']) ?>
             <main class="py-8 sm:py-12">
                 <?= $content ?? '' ?>
             </main>

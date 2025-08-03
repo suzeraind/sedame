@@ -1,8 +1,8 @@
 <section class="bg-gradient-to-br from-indigo-600 to-indigo-800 py-16">
     <div class="container mx-auto px-6 text-center text-white">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">Свяжитесь с нами</h1>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
         <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90">
-            Готовы начать проект? Напишите нам — мы ответим в течение 24 часов.
+            Ready to start a project? Write to us — we will respond within 24 hours.
         </p>
     </div>
 </section>
@@ -11,7 +11,7 @@
     <div class="container mx-auto px-6">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-                <h2 class="text-3xl font-bold text-gray-900 mb-6">Как с нами связаться</h2>
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">How to Reach Us</h2>
                 <div class="space-y-6">
                     <div class="flex items-start space-x-4">
                         <div
@@ -32,7 +32,7 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold">Электронная почта</h3>
+                            <h3 class="text-xl font-semibold">Email</h3>
                             <p class="text-gray-600">info@ourcompany.com</p>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold">Телефон</h3>
+                            <h3 class="text-xl font-semibold">Phone</h3>
                             <p class="text-gray-600">+7 (495) 123-45-67</p>
                         </div>
                     </div>
@@ -86,24 +86,23 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold">Адрес</h3>
-                            <p class="text-gray-600">Москва, ул. Технологическая, д. 10<br>Бизнес-центр «Инновация»,
-                                офис 205</p>
+                            <h3 class="text-xl font-semibold">Address</h3>
+                            <p class="text-gray-600">Moscow, Technological St., 10<br>"Innovation" Business Center, Office 205</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="mt-10">
-                    <h3 class="text-xl font-semibold mb-4">Режим работы</h3>
+                    <h3 class="text-xl font-semibold mb-4">Business Hours</h3>
                     <p class="text-gray-600">
-                        Пн–Пт: с 9:00 до 18:00<br>
-                        Сб–Вс: выходной
+                        Mon–Fri: 9:00 AM to 6:00 PM<br>
+                        Sat–Sun: Closed
                     </p>
                 </div>
             </div>
 
             <div class="bg-gray-50 p-8 rounded-xl shadow-sm">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">Отправить сообщение</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Send a Message</h2>
                 <form
                     action="#"
                     method="POST"
@@ -113,7 +112,7 @@
                         <label
                             for="name"
                             class="block text-sm font-medium text-gray-700 mb-1"
-                        >Ваше имя</label>
+                        >Your Name</label>
                         <input
                             type="text"
                             id="name"
@@ -139,7 +138,7 @@
                         <label
                             for="subject"
                             class="block text-sm font-medium text-gray-700 mb-1"
-                        >Тема</label>
+                        >Subject</label>
                         <input
                             type="text"
                             id="subject"
@@ -151,7 +150,7 @@
                         <label
                             for="message"
                             class="block text-sm font-medium text-gray-700 mb-1"
-                        >Сообщение</label>
+                        >Message</label>
                         <textarea
                             id="message"
                             name="message"
@@ -164,7 +163,7 @@
                         type="submit"
                         class="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition"
                     >
-                        Отправить сообщение
+                        Send Message
                     </button>
                 </form>
             </div>
@@ -174,10 +173,10 @@
 
 <section class="py-16 bg-gray-100">
     <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Где нас найти</h2>
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Where to Find Us</h2>
         <div
             class="bg-gray-300 rounded-lg h-80 flex items-center justify-center shadow-inner text-gray-600 font-medium">
-            [Здесь будет интерактивная карта — например, Яндекс.Карты или Google Maps]
+            [Interactive map here — e.g., Yandex.Maps or Google Maps]
         </div>
     </div>
 </section>

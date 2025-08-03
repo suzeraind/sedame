@@ -1,9 +1,9 @@
 <div class="text-center max-w-3xl mx-auto mb-12">
     <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4 tracking-tight">
-        Добро пожаловать на главную!
+        Welcome to the Home Page!
     </h1>
     <p class="text-lg text-gray-600 leading-relaxed">
-        Это контент, который вставляется в основной шаблон.
+        This is the content inserted into the main template.
     </p>
 </div>
 
@@ -20,7 +20,7 @@
             </p>
             <div class="mt-4">
                 <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-full">
-                    Читать далее
+                    Read More
                 </span>
             </div>
         </article>
@@ -29,6 +29,6 @@
 
 <?php if (empty($posts)): ?>
     <div class="text-center mt-10">
-        <p class="text-gray-500 text-lg">Пока нет доступных постов.</p>
+        <p class="text-gray-500 text-lg">No posts available yet.</p>
     </div>
 <?php endif; ?>

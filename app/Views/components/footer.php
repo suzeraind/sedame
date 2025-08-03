@@ -2,36 +2,36 @@
     <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
-                <h4 class="text-xl font-bold text-indigo-400 mb-4">Мой Блог</h4>
+                <h4 class="text-xl font-bold text-indigo-400 mb-4">My Blog</h4>
                 <p class="text-gray-300 leading-relaxed text-sm">
-                    Технологии, мысли и идеи. Пишу о веб-разработке, PHP и современных фреймворках.
+                    Technologies, thoughts, and ideas. Writing about web development, PHP, and modern frameworks.
                 </p>
             </div>
 
             <div>
-                <h4 class="text-lg font-semibold mb-4">Быстрые ссылки</h4>
+                <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
                 <ul class="space-y-3 text-gray-300">
                     <li><a
                             href="/"
                             class="hover:text-white transition-colors duration-200"
-                        >Главная</a></li>
+                        >Home</a></li>
                     <li><a
                             href="/about"
                             class="hover:text-white transition-colors duration-200"
-                        >О нас</a></li>
+                        >About Us</a></li>
                     <li><a
                             href="/contact"
                             class="hover:text-white transition-colors duration-200"
-                        >Контакты</a></li>
+                        >Contact</a></li>
                     <li><a
                             href="/blog"
                             class="hover:text-white transition-colors duration-200"
-                        >Блог</a></li>
+                        >Blog</a></li>
                 </ul>
             </div>
 
             <div>
-                <h4 class="text-lg font-semibold mb-4">Связь</h4>
+                <h4 class="text-lg font-semibold mb-4">Contact</h4>
                 <ul class="space-y-3 text-gray-300">
                     <li>
                         <span class="mr-2">📧</span>
@@ -55,7 +55,7 @@
         <hr class="border-gray-700 mb-6">
 
         <div class="text-center text-gray-400 text-sm">
-            © 2025 — <span class="font-medium text-white">Мой PHP-сайт</span>. Все права защищены.
+            © 2025 — <span class="font-medium text-white">My PHP Website</span>. All rights reserved.
         </div>
     </div>
 </footer>

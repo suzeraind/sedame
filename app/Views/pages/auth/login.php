@@ -18,13 +18,13 @@
                 />
             </svg>
         </div>
-        <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Вход в аккаунт</h2>
+        <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
         <p class="mt-2 text-center text-sm text-gray-600">
-            Нет аккаунта?
+            No account?
             <a
                 href="/register"
                 class="font-medium text-indigo-600 hover:text-indigo-500"
-            >Зарегистрируйтесь</a>
+            >Register here</a>
         </p>
     </div>
 
@@ -48,7 +48,7 @@
                             </svg>
                         </div>
                         <div class="ml-3">
-                            <p class="text-sm font-medium text-green-800">Регистрация успешна! Теперь вы можете войти.</p>
+                            <p class="text-sm font-medium text-green-800">Registration successful! You can now log in.</p>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     <label
                         for="email"
                         class="block text-sm font-medium text-gray-700"
-                    >Email адрес</label>
+                    >Email address</label>
                     <div class="mt-1">
                         <input
                             id="email"
@@ -89,7 +89,7 @@
                     <label
                         for="password"
                         class="block text-sm font-medium text-gray-700"
-                    >Пароль</label>
+                    >Password</label>
                     <div class="mt-1">
                         <input
                             id="password"
@@ -119,14 +119,14 @@
                         <label
                             for="remember-me"
                             class="ml-2 block text-sm text-gray-900"
-                        >Запомнить меня</label>
+                        >Remember me</label>
                     </div>
 
                     <div class="text-sm">
                         <a
                             href="#"
                             class="font-medium text-indigo-600 hover:text-indigo-500"
-                        >Забыли пароль?</a>
+                        >Forgot your password?</a>
                     </div>
                 </div>
 
@@ -148,7 +148,7 @@
                                 </svg>
                             </div>
                             <div class="ml-3">
-                                <h3 class="text-sm font-medium text-red-800">Ошибка авторизации</h3>
+                                <h3 class="text-sm font-medium text-red-800">Authentication error</h3>
                                 <div class="mt-2 text-sm text-red-700">
                                     <p><?= htmlspecialchars($error) ?></p>
                                 </div>
@@ -165,7 +165,7 @@
                         :class="{'opacity-50 cursor-not-allowed': isSubmitting || !isFormValid, 'hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500': !isSubmitting && isFormValid}"
                         class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm transition duration-150 ease-in-out"
                     >
-                        <span x-show="!isSubmitting">Войти</span>
+                        <span x-show="!isSubmitting">Sign in</span>
                         <span
                             x-show="isSubmitting"
                             class="flex items-center"
@@ -190,7 +190,7 @@
                                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                 ></path>
                             </svg>
-                            Обработка...
+                            Processing...
                         </span>
                     </button>
                 </div>
@@ -201,7 +201,7 @@
                     <div class="w-full border-t border-gray-300"></div>
                 </div>
                 <div class="relative flex justify-center text-sm">
-                    <span class="bg-white px-2 text-gray-500">Или продолжить с</span>
+                    <span class="bg-white px-2 text-gray-500">Or continue with</span>
                 </div>
             </div>
 
@@ -252,7 +252,8 @@
     function loginForm() {
         return {
             form: {
-                email: '<?= htmlspecialchars($old_email ?? '') ?>',
+                email: 
+'<?= htmlspecialchars($old_email ?? '') ?>',
                 password: ''
             },
             errors: {
@@ -262,25 +263,28 @@
             isSubmitting: false,
 
             validateForm() {
-                // Валидация email
+                // Email validation
                 if (!this.form.email.trim()) {
-                    this.errors.email = 'Email обязателен';
+                    this.errors.email = 'Email is required';
                 } else if (!this.isValidEmail(this.form.email)) {
-                    this.errors.email = 'Введите корректный email';
+                    this.errors.email = 'Enter a valid email';
                 } else {
                     this.errors.email = '';
                 }
 
-                // Валидация пароля
+                // Password validation
                 if (!this.form.password) {
-                    this.errors.password = 'Пароль обязателен';
+                    this.errors.password = 'Password is required';
                 } else {
                     this.errors.password = '';
                 }
             },
 
             isValidEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const re = /^[^
+s@]+@[^
+s@]+\.[^
+s@]+$/;
                 return re.test(email);
             },
 
@@ -297,7 +301,7 @@
 
                 if (this.isFormValid) {
                     this.isSubmitting = true;
-                    // Отправляем форму через стандартный submit
+                    // Submit the form via standard submit
                     setTimeout(() => {
                         this.$el.submit();
                     }, 100);

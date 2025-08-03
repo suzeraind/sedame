@@ -1,9 +1,9 @@
 <section class="bg-indigo-700 text-white py-20">
     <div class="container mx-auto px-6 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">О нашей компании</h1>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">About Our Company</h1>
         <p class="text-lg md:text-xl max-w-3xl mx-auto">
-            Мы верим в инновации, качество и заботу о клиентах. Наша миссия — делать технологии доступными и
-            полезными.
+            We believe in innovation, quality, and customer care. Our mission is to make technology accessible and
+            useful.
         </p>
     </div>
 </section>
@@ -30,24 +30,24 @@
                 </div>
             </div>
             <div class="md:w-1/2 space-y-4">
-                <h2 class="text-3xl font-bold text-gray-900">Кто мы?</h2>
+                <h2 class="text-3xl font-bold text-gray-900">Who We Are</h2>
                 <p class="text-lg text-gray-600">
-                    Наша компания была основана в 2015 году с целью создания качественных цифровых решений для
-                    бизнеса.
-                    За годы работы мы помогли более чем 500 клиентам улучшить свои процессы и выйти на новый
-                    уровень.
+                    Our company was founded in 2015 with the goal of creating high-quality digital solutions for
+                    businesses.
+                    Over the years, we have helped more than 500 clients improve their processes and reach a new
+                    level.
                 </p>
                 <p class="text-gray-600">
-                    Мы специализируемся на веб-разработке, дизайне интерфейсов и цифровом маркетинге. Наша команда —
-                    это
-                    профессионалы, которые любят свою работу и стремятся к совершенству.
+                    We specialize in web development, interface design, and digital marketing. Our team is
+                    comprised of
+                    professionals who love their work and strive for excellence.
                 </p>
                 <div class="mt-6">
                     <a
                         href="contact.php"
                         class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition"
                     >
-                        Связаться с нами
+                        Contact Us
                     </a>
                 </div>
             </div>
@@ -57,7 +57,7 @@
 
 <section class="py-16 bg-gray-100">
     <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-12 text-gray-900">Наша миссия и ценности</h2>
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-900">Our Mission and Values</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="bg-white p-8 rounded-lg shadow-md text-center">
                 <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -76,8 +76,8 @@
                         />
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-3">Инновации</h3>
-                <p class="text-gray-600">Мы всегда в поиске новых решений, чтобы быть на шаг впереди.</p>
+                <h3 class="text-xl font-semibold mb-3">Innovation</h3>
+                <p class="text-gray-600">We are always looking for new solutions to stay one step ahead.</p>
             </div>
             <div class="bg-white p-8 rounded-lg shadow-md text-center">
                 <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -96,8 +96,8 @@
                         />
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-3">Качество</h3>
-                <p class="text-gray-600">Каждый проект проходит строгий контроль качества и тестирование.</p>
+                <h3 class="text-xl font-semibold mb-3">Quality</h3>
+                <p class="text-gray-600">Every project undergoes strict quality control and testing.</p>
             </div>
             <div class="bg-white p-8 rounded-lg shadow-md text-center">
                 <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -116,9 +116,9 @@
                         />
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-3">Доверие</h3>
+                <h3 class="text-xl font-semibold mb-3">Trust</h3>
                 <p class="text-gray-600">
-                    Мы строим долгосрочные отношения с клиентами на основе честности и прозрачности.
+                    We build long-term relationships with clients based on honesty and transparency.
                 </p>
             </div>
         </div>
@@ -127,7 +127,7 @@
 
 <section class="py-16 bg-white">
     <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-12 text-gray-900">Наша команда</h2>
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-900">Our Team</h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <?php foreach ($team as $member): ?>
                 <div class="text-center">

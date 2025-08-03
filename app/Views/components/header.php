@@ -1,7 +1,7 @@
 <?php
 $active_page = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
 $is_authenticated = isset($_SESSION['user_id']);
-$user_name = $_SESSION['username'] ?? 'Пользователь';
+$user_name = $_SESSION['username'] ?? 'User';
 ?>
 <header
     class="bg-white shadow-sm sticky top-0 z-50"
@@ -24,7 +24,7 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                            ? 'text-indigo-600 bg-indigo-50 font-semibold'
                            : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100' ?>"
             >
-                Главная
+                Home
             </a>
             <a
                 href="/about"
@@ -33,7 +33,7 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                            ? 'text-indigo-600 bg-indigo-50 font-semibold'
                            : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100' ?>"
             >
-                О нас
+                About Us
             </a>
             <a
                 href="/contact"
@@ -42,7 +42,7 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                            ? 'text-indigo-600 bg-indigo-50 font-semibold'
                            : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100' ?>"
             >
-                Контакты
+                Contact
             </a>
         </nav>
 
@@ -97,28 +97,28 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                         <div class="py-1">
                             <div class="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
                                 <p class="font-medium"><?= htmlspecialchars($user_name) ?></p>
-                                <p class="text-gray-500 text-xs">Пользователь</p>
+                                <p class="text-gray-500 text-xs">User</p>
                             </div>
                             <a
                                 href="/profile"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 role="menuitem"
                             >
-                                Профиль
+                                Profile
                             </a>
                             <a
                                 href="/settings"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 role="menuitem"
                             >
-                                Настройки
+                                Settings
                             </a>
                             <a
                                 href="/logout"
                                 class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                                 role="menuitem"
                             >
-                                Выйти
+                                Logout
                             </a>
                         </div>
                     </div>
@@ -129,13 +129,13 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                     href="/login"
                     class="text-sm font-medium text-gray-700 hover:text-indigo-600"
                 >
-                    Войти
+                    Login
                 </a>
                 <a
                     href="/register"
                     class="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md transition-colors"
                 >
-                    Регистрация
+                    Register
                 </a>
             <?php endif; ?>
         </div>
@@ -148,7 +148,7 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
             :aria-expanded="mobileMenuOpen"
             @click="mobileMenuOpen = !mobileMenuOpen"
         >
-            <span class="sr-only">Открыть меню</span>
+            <span class="sr-only">Open menu</span>
             <svg
                 class="h-6 w-6"
                 fill="none"
@@ -182,7 +182,7 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                        <?= ($active_page ?? '') === '/' ? 'bg-indigo-50 font-medium' : '' ?>"
                 role="menuitem"
             >
-                Главная
+                Home
             </a>
             <a
                 href="/about"
@@ -191,7 +191,7 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                        <?= ($active_page ?? '') === '/about' ? 'bg-indigo-50 font-medium' : '' ?>"
                 role="menuitem"
             >
-                О нас
+                About Us
             </a>
             <a
                 href="/contact"
@@ -200,7 +200,7 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                        <?= ($active_page ?? '') === '/contact' ? 'bg-indigo-50 text-indigo-600 font-medium' : '' ?>"
                 role="menuitem"
             >
-                Контакты
+                Contact
             </a>
 
             <!-- Mobile User Menu -->
@@ -214,7 +214,7 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-900"><?= htmlspecialchars($user_name) ?></p>
-                            <p class="text-xs text-gray-500">Пользователь</p>
+                            <p class="text-xs text-gray-500">User</p>
                         </div>
                     </div>
                     <div class="mt-3 space-y-1">
@@ -224,7 +224,7 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                             class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
                             role="menuitem"
                         >
-                            Профиль
+                            Profile
                         </a>
                         <a
                             href="/settings"
@@ -232,7 +232,7 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                             class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
                             role="menuitem"
                         >
-                            Настройки
+                            Settings
                         </a>
                         <a
                             href="/logout"
@@ -240,7 +240,7 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                             class="block px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md"
                             role="menuitem"
                         >
-                            Выйти
+                            Logout
                         </a>
                     </div>
                 </div>
@@ -250,13 +250,13 @@ $user_name = $_SESSION['username'] ?? 'Пользователь';
                         href="/login"
                         class="block w-full text-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md"
                     >
-                        Войти
+                        Login
                     </a>
                     <a
                         href="/register"
                         class="block w-full text-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md"
                     >
-                        Регистрация
+                        Register
                     </a>
                 </div>
             <?php endif; ?>

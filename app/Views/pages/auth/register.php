@@ -19,20 +19,20 @@
                 />
             </svg>
         </div>
-        <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Создать аккаунт</h2>
+        <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Create an account</h2>
         <p class="mt-2 text-center text-sm text-gray-600">
-            Уже есть аккаунт?
+            Already have an account?
             <a
                 href="/login"
                 class="font-medium text-indigo-600 hover:text-indigo-500"
-            >Войдите здесь</a>
+            >Log in here</a>
         </p>
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <!-- Success Message -->
-            <?php if (isset($_GET['registered'])): ?>
+            <?php if (isset($_GET["registered"])): ?>
                 <div class="mb-4 rounded-md bg-green-50 p-4">
                     <div class="flex">
                         <div class="flex-shrink-0">
@@ -49,7 +49,7 @@
                             </svg>
                         </div>
                         <div class="ml-3">
-                            <p class="text-sm font-medium text-green-800">Регистрация успешна! Теперь вы можете войти.</p>
+                            <p class="text-sm font-medium text-green-800">Registration successful! You can now log in.</p>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                     <label
                         for="name"
                         class="block text-sm font-medium text-gray-700"
-                    >Имя</label>
+                    >Name</label>
                     <div class="mt-1 relative">
                         <input
                             id="name"
@@ -99,7 +99,7 @@
                     <p
                         class="mt-1 text-sm text-gray-500"
                         x-show="!form.name"
-                    >Введите ваше имя</p>
+                    >Enter your name</p>
                     <p
                         class="mt-1 text-sm text-red-600"
                         x-show="errors.name"
@@ -112,7 +112,7 @@
                     <label
                         for="email"
                         class="block text-sm font-medium text-gray-700"
-                    >Email адрес</label>
+                    >Email address</label>
                     <div class="mt-1 relative">
                         <input
                             id="email"
@@ -145,7 +145,7 @@
                     <p
                         class="mt-1 text-sm text-gray-500"
                         x-show="!form.email"
-                    >Введите действующий email</p>
+                    >Enter a valid email</p>
                     <p
                         class="mt-1 text-sm text-red-600"
                         x-show="errors.email"
@@ -158,7 +158,7 @@
                     <label
                         for="password"
                         class="block text-sm font-medium text-gray-700"
-                    >Пароль</label>
+                    >Password</label>
                     <div class="mt-1 relative">
                         <input
                             id="password"
@@ -198,7 +198,7 @@
                         <div class="flex justify-between text-xs text-gray-500 mt-1">
                             <span x-text="passwordStrength.label"></span>
                             <span x-show="form.password.length > 0"><span x-text="form.password.length"></span>/6
-                                символов</span>
+                                characters</span>
                         </div>
                     </div>
                     <p
@@ -213,7 +213,7 @@
                     <label
                         for="password_confirm"
                         class="block text-sm font-medium text-gray-700"
-                    >Подтверждение пароля</label>
+                    >Confirm Password</label>
                     <div class="mt-1 relative">
                         <input
                             id="password_confirm"
@@ -268,7 +268,7 @@
                                 </svg>
                             </div>
                             <div class="ml-3">
-                                <h3 class="text-sm font-medium text-red-800">Ошибки при регистрации:</h3>
+                                <h3 class="text-sm font-medium text-red-800">Registration errors:</h3>
                                 <div class="mt-2 text-sm text-red-700">
                                     <ul class="list-disc space-y-1 pl-5">
                                         <?php foreach ($errors as $error): ?>
@@ -289,7 +289,7 @@
                         :class="{'opacity-50 cursor-not-allowed': isSubmitting || !isFormValid, 'hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500': !isSubmitting && isFormValid}"
                         class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm transition duration-150 ease-in-out"
                     >
-                        <span x-show="!isSubmitting">Создать аккаунт</span>
+                        <span x-show="!isSubmitting">Create account</span>
                         <span
                             x-show="isSubmitting"
                             class="flex items-center"
@@ -314,7 +314,7 @@
                                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                 ></path>
                             </svg>
-                            Обработка...
+                            Processing...
                         </span>
                     </button>
                 </div>
@@ -327,8 +327,8 @@
     function registrationForm() {
         return {
             form: {
-                name: '<?= htmlspecialchars($old['name'] ?? '') ?>',
-                email: '<?= htmlspecialchars($old['email'] ?? '') ?>',
+                name: '<?= htmlspecialchars($old["name"] ?? "") ?>',
+                email: '<?= htmlspecialchars($old["email"] ?? "") ?>',
                 password: '',
                 password_confirm: ''
             },
@@ -341,59 +341,59 @@
             isSubmitting: false,
 
             init() {
-                // Инициализация с уже переданными ошибками из PHP
+                // Initialize with already passed errors from PHP
                 <?php if (isset($errors) && !empty($errors)): ?>
                                 this.validateForm();
                     <?php endif; ?>
                 },
                 
                 validateForm() {
-                    // Валидация имени
+                    // Name validation
                     if (!this.form.name.trim()) {
-                        this.errors.name = 'Имя обязательно';
+                        this.errors.name = 'Name is required';
                     } else if (this.form.name.length < 2) {
-                        this.errors.name = 'Имя должно быть не менее 2 символов';
+                        this.errors.name = 'Name must be at least 2 characters';
                     } else {
                         this.errors.name = '';
                     }
                     
-                    // Валидация email
+                    // Email validation
                     if (!this.form.email.trim()) {
-                        this.errors.email = 'Email обязателен';
+                        this.errors.email = 'Email is required';
                     } else if (!this.isValidEmail(this.form.email)) {
-                        this.errors.email = 'Введите корректный email';
+                        this.errors.email = 'Enter a valid email';
                     } else {
                         this.errors.email = '';
                     }
                     
-                    // Валидация пароля
+                    // Password validation
                     if (!this.form.password) {
-                        this.errors.password = 'Пароль обязателен';
+                        this.errors.password = 'Password is required';
                     } else if (this.form.password.length < 6) {
-                        this.errors.password = 'Пароль должен быть не менее 6 символов';
+                        this.errors.password = 'Password must be at least 6 characters';
                     } else {
                         this.errors.password = '';
                     }
                     
-                    // Валидация подтверждения пароля
+                    // Password confirmation validation
                     if (this.form.password !== this.form.password_confirm) {
-                        this.errors.password_confirm = 'Пароли не совпадают';
+                        this.errors.password_confirm = 'Passwords do not match';
                     } else {
                         this.errors.password_confirm = '';
                     }
                 },
                 
                 isValidEmail(email) {
-                    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    const re = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
                     return re.test(email);
                 },
                 
                 get passwordStrength() {
                     const length = this.form.password.length;
-                    if (length === 0) return { percentage: 0, label: 'Пароль не введен' };
-                    if (length < 3) return { percentage: 20, label: 'Слабый' };
-                    if (length < 6) return { percentage: 50, label: 'Средний' };
-                    return { percentage: 100, label: 'Сильный' };
+                    if (length === 0) return { percentage: 0, label: 'No password entered' };
+                    if (length < 3) return { percentage: 20, label: 'Weak' };
+                    if (length < 6) return { percentage: 50, label: 'Medium' };
+                    return { percentage: 100, label: 'Strong' };
                 },
                 
                 get isFormValid() {
@@ -421,4 +421,5 @@
                 }
             }
         }
-    </script>
+    }
+</script>
