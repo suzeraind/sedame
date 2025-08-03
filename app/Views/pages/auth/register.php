@@ -25,14 +25,14 @@
             <a
                 href="/login"
                 class="font-medium text-indigo-600 hover:text-indigo-500"
-            >Log in here</a>
+            >Sign in here</a>
         </p>
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <!-- Success Message -->
-            <?php if (isset($_GET["registered"])): ?>
+            <?php if (isset($_GET['registered'])): ?>
                 <div class="mb-4 rounded-md bg-green-50 p-4">
                     <div class="flex">
                         <div class="flex-shrink-0">
@@ -213,7 +213,7 @@
                     <label
                         for="password_confirm"
                         class="block text-sm font-medium text-gray-700"
-                    >Confirm Password</label>
+                    >Confirm password</label>
                     <div class="mt-1 relative">
                         <input
                             id="password_confirm"
@@ -319,16 +319,16 @@
                     </button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
+
 <script>
     function registrationForm() {
         return {
             form: {
-                name: '<?= htmlspecialchars($old["name"] ?? "") ?>',
-                email: '<?= htmlspecialchars($old["email"] ?? "") ?>',
+                name: '<?= htmlspecialchars($old['name'] ?? '') ?>',
+                email: '<?= htmlspecialchars($old['email'] ?? '') ?>',
                 password: '',
                 password_confirm: ''
             },
@@ -341,85 +341,85 @@
             isSubmitting: false,
 
             init() {
-                // Initialize with already passed errors from PHP
+                // Initialize with errors already passed from PHP
                 <?php if (isset($errors) && !empty($errors)): ?>
-                                this.validateForm();
-                    <?php endif; ?>
-                },
-                
-                validateForm() {
-                    // Name validation
-                    if (!this.form.name.trim()) {
-                        this.errors.name = 'Name is required';
-                    } else if (this.form.name.length < 2) {
-                        this.errors.name = 'Name must be at least 2 characters';
-                    } else {
-                        this.errors.name = '';
-                    }
-                    
-                    // Email validation
-                    if (!this.form.email.trim()) {
-                        this.errors.email = 'Email is required';
-                    } else if (!this.isValidEmail(this.form.email)) {
-                        this.errors.email = 'Enter a valid email';
-                    } else {
-                        this.errors.email = '';
-                    }
-                    
-                    // Password validation
-                    if (!this.form.password) {
-                        this.errors.password = 'Password is required';
-                    } else if (this.form.password.length < 6) {
-                        this.errors.password = 'Password must be at least 6 characters';
-                    } else {
-                        this.errors.password = '';
-                    }
-                    
-                    // Password confirmation validation
-                    if (this.form.password !== this.form.password_confirm) {
-                        this.errors.password_confirm = 'Passwords do not match';
-                    } else {
-                        this.errors.password_confirm = '';
-                    }
-                },
-                
-                isValidEmail(email) {
-                    const re = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
-                    return re.test(email);
-                },
-                
-                get passwordStrength() {
-                    const length = this.form.password.length;
-                    if (length === 0) return { percentage: 0, label: 'No password entered' };
-                    if (length < 3) return { percentage: 20, label: 'Weak' };
-                    if (length < 6) return { percentage: 50, label: 'Medium' };
-                    return { percentage: 100, label: 'Strong' };
-                },
-                
-                get isFormValid() {
-                    return this.form.name.trim() && 
-                           this.form.name.length >= 2 &&
-                           this.form.email.trim() && 
-                           this.isValidEmail(this.form.email) &&
-                           this.form.password.length >= 6 &&
-                           this.form.password === this.form.password_confirm &&
-                           !this.errors.name && 
-                           !this.errors.email && 
-                           !this.errors.password && 
-                           !this.errors.password_confirm;
-                },
-                
-                handleSubmit() {
                     this.validateForm();
-                    
-                    if (this.isFormValid) {
-                        this.isSubmitting = true;
-                        setTimeout(() => {
-                            this.$el.submit();
-                        }, 100);
-                    }
+                <?php endif; ?>
+            },
+
+            validateForm() {
+                // Name validation
+                if (!this.form.name.trim()) {
+                    this.errors.name = 'Name is required';
+                } else if (this.form.name.length < 2) {
+                    this.errors.name = 'Name must be at least 2 characters';
+                } else {
+                    this.errors.name = '';
+                }
+
+                // Email validation
+                if (!this.form.email.trim()) {
+                    this.errors.email = 'Email is required';
+                } else if (!this.isValidEmail(this.form.email)) {
+                    this.errors.email = 'Enter a valid email';
+                } else {
+                    this.errors.email = '';
+                }
+
+                // Password validation
+                if (!this.form.password) {
+                    this.errors.password = 'Password is required';
+                } else if (this.form.password.length < 6) {
+                    this.errors.password = 'Password must be at least 6 characters';
+                } else {
+                    this.errors.password = '';
+                }
+
+                // Password confirmation validation
+                if (this.form.password !== this.form.password_confirm) {
+                    this.errors.password_confirm = 'Passwords do not match';
+                } else {
+                    this.errors.password_confirm = '';
+                }
+            },
+
+            isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            },
+
+            get passwordStrength() {
+                const length = this.form.password.length;
+                if (length === 0) return {percentage: 0, label: 'No password entered'};
+                if (length < 3) return {percentage: 20, label: 'Weak'};
+                if (length < 6) return {percentage: 50, label: 'Medium'};
+                return {percentage: 100, label: 'Strong'};
+            },
+
+            get isFormValid() {
+                return this.form.name.trim() &&
+                    this.form.name.length >= 2 &&
+                    this.form.email.trim() &&
+                    this.isValidEmail(this.form.email) &&
+                    this.form.password.length >= 6 &&
+                    this.form.password === this.form.password_confirm &&
+                    !this.errors.name &&
+                    !this.errors.email &&
+                    !this.errors.password &&
+                    !this.errors.password_confirm;
+            },
+
+            handleSubmit() {
+                this.validateForm();
+
+                if (this.isFormValid) {
+                    this.isSubmitting = true;
+                    // Submit the form via standard submit
+                    setTimeout(() => {
+                        this.$el.submit();
+                    }, 100);
                 }
             }
-        }
+        };
     }
 </script>

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -49,8 +48,8 @@ class AuthController extends Controller
     #[Middleware('GuestMiddleware')]
     public function login(): void
     {
-        $email = trim((string)($_POST['email'] ?? ''));
-        $password = (string)($_POST['password'] ?? '');
+        $email = trim((string) ($_POST['email'] ?? ''));
+        $password = (string) ($_POST['password'] ?? '');
 
         if ($email === '' || $password === '') {
             $this->render('auth/login', [
@@ -96,10 +95,10 @@ class AuthController extends Controller
     #[Middleware('GuestMiddleware')]
     public function register(): void
     {
-        $name = trim((string)($_POST['name'] ?? ''));
-        $email = trim((string)($_POST['email'] ?? ''));
-        $password = (string)($_POST['password'] ?? '');
-        $password_confirm = (string)($_POST['password_confirm'] ?? '');
+        $name = trim((string) ($_POST['name'] ?? ''));
+        $email = trim((string) ($_POST['email'] ?? ''));
+        $password = (string) ($_POST['password'] ?? '');
+        $password_confirm = (string) ($_POST['password_confirm'] ?? '');
 
         $errors = [];
 
