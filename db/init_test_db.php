@@ -4,9 +4,17 @@ require_once __DIR__ . '/../bootstrap/app.php';
 
 use App\Core\Database;
 
+$dbPath = __DIR__ . '/db.sqlite';
 
 try {
-    // Создаем таблицу users
+    $dbExists = file_exists($dbPath);
+    if (!$dbExists) {
+        touch($dbPath);
+        echo "✅ Database file created at: $dbPath\n";
+    } else {
+        echo "ℹ️  Database file already exists at: $dbPath\n";
+    }
+
     $db = Database::getInstance()->getPdo();
 
     $sql = "
@@ -22,9 +30,8 @@ try {
     ";
 
     $db->exec($sql);
-    echo "✅ Таблица users создана\n";
+    echo "✅ Users table created\n";
 
-    // Добавим немного тестовых данных
     $stmt = $db->prepare(
         "
         INSERT OR IGNORE INTO users (name, email, password, active) 
@@ -42,8 +49,8 @@ try {
         $stmt->execute($user);
     }
 
-    echo "✅ Тестовые данные добавлены\n";
-    echo "🎉 Готово! Можно тестировать функционал\n";
+    echo "✅ Test data added\n";
+    echo "🎉 Done! You can now test the functionality\n";
 } catch (Exception $e) {
-    echo "❌ Ошибка: " . $e->getMessage() . "\n";
+    echo "❌ Error: " . $e->getMessage() . "\n";
 }
