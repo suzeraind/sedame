@@ -26,6 +26,7 @@
 
                     use App\Core\Http;
                     use App\Core\Controller;
+                    use App\Facades\View;
                     use App\Core\Attributes\Route;
 
                     class AuthController extends Controller
@@ -33,7 +34,7 @@
                         #[Route(Http::GET, '/login')]
                         public function showLogin(): void
                         {
-                            $this->render('auth/login');
+                            View::layout('main')->render('auth/login');
                         }
 
                         #[Route(Http::POST, '/login')]
@@ -61,9 +62,9 @@
                         $password = (string) ($_POST['password'] ?? '');
 
                         if ($email === '' || $password === '') {
-                            $this->render('auth/login', [
+                            View::layout('main')->with([
                                 'error' => 'Заполните все поля'
-                            ]);
+                            ])->render('auth/login');
                             return;
                         }
                         
@@ -122,6 +123,7 @@
                     use App\Core\Attributes\Middleware;
                     use App\Core\Controller;
                     use App\Core\Http;
+                    use App\Core\Attributes\Route;
 
                     class AuthController extends Controller
                     {
@@ -130,6 +132,7 @@
                         public function logout(): void
                         {
                             session_destroy();
+                            $_SESSION = [];
                             $this->redirect('/login');
                         }
                     }
@@ -145,7 +148,7 @@
                 </p>
                 <pre><code class="language-php">
                     // In a Model or directly using the QueryBuilder
-                    $recentActiveUsers = User::inst()
+                    $recentActiveUsers =  new User()
                         ->select(['id', 'name', 'email'])
                         ->where('active', '=', 1)
                         ->whereIn('role', ['admin', 'editor'])
@@ -164,7 +167,7 @@
                 </p>
                 <pre><code class="language-php">
                     // In your Controller, rendering a view uses the default layout
-                    $this->render('home', ['title' => 'Home Page']);
+                    View::layout('main')->with(['title' => 'Home Page'])->render('home');
 
                     // In your layout file (e.g., layouts/main.php)
                     &lt;!DOCTYPE html&gt;
@@ -173,13 +176,13 @@
                         &lt;title&gt;&lt;?= $title ?? 'My App' ?&gt;&lt;/title&gt;
                     &lt;/head&gt;
                     &lt;body&gt;
-                        &lt;?php $this->component('header') ?&gt;
+                        &lt;?php View::component('header') ?&gt;
                         
                         &lt;main&gt;
                             &lt;?= $content ?? '' ?&gt; &lt;!-- Page content is injected here --&gt;
                         &lt;/main&gt;
 
-                        &lt;?php $this->component('footer') ?&gt;
+                        &lt;?php View::component('footer') ?&gt;
                     &lt;/body&gt;
                     &lt;/html&gt;
                 </code></pre>
