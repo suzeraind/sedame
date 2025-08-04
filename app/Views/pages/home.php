@@ -31,20 +31,34 @@
                             <div class="relative p-8">
                                 <h3 class="text-xl font-bold text-white">Code Example</h3>
                                 <pre class="mt-4 rounded-md bg-gray-900 p-4 overflow-auto"><code class="language-php text-sm text-gray-300">
-// app/Controllers/HomeController.php
+// app/Controllers/AuthController.php
 
 namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Core\View;
+use App\Models\User;
+use App\Core\Attributes\Route;
+use App\Core\Attributes\Middleware;
 
-class HomeController extends Controller
+class AuthController extends Controller
 {
-    public function index(): View
+    // Dependencies are automatically injected
+    // by the service container.
+    public function __construct(
+        protected View $view,
+        private User $userModel
+    ) {
+        parent::__construct($view);
+    }
+
+    #[Route(Http::GET, '/login')]
+    #[Middleware('GuestMiddleware')]
+    public function showLogin(): void
     {
-        return View::make('home', [
-            'title' => 'Home Page'
-        ]);
+        // The render method is inherited
+        // from the base Controller.
+        $this->render('auth/login');
     }
 }
                                 </code></pre>
