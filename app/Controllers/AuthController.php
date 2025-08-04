@@ -5,7 +5,7 @@ namespace App\Controllers;
 
 use App\Core\Http;
 use App\Core\Controller;
-use App\Core\View;
+use App\Facades\View;
 use App\Core\Attributes\Route;
 use App\Core\Attributes\Middleware;
 use App\Models\User;
@@ -16,12 +16,10 @@ class AuthController extends Controller
      * Constructor for AuthController.
      * Initializes the parent controller and the User model.
      *
-     * @param View $view The view instance.
      * @param User $userModel The user model instance.
      */
-    public function __construct(protected View $view, private User $userModel)
+    public function __construct(private User $userModel)
     {
-        parent::__construct($view);
     }
 
     /**
@@ -34,7 +32,7 @@ class AuthController extends Controller
     #[Middleware('GuestMiddleware')]
     public function showLogin(): void
     {
-        $this->render('auth/login');
+        View::layout('main')->render('auth/login');
     }
 
     /**
@@ -51,9 +49,9 @@ class AuthController extends Controller
         $password = (string) ($_POST['password'] ?? '');
 
         if ($email === '' || $password === '') {
-            $this->render('auth/login', [
+            View::layout('main')->with([
                 'error' => 'Please fill in all fields'
-            ]);
+            ])->render('auth/login');
             return;
         }
 
@@ -64,10 +62,10 @@ class AuthController extends Controller
             $_SESSION['username'] = $user['name'] ?? $user['username'];
             $this->redirect('/home');
         } else {
-            $this->render('auth/login', [
+            View::layout('main')->with([
                 'error' => 'Invalid email or password',
                 'old_email' => $email
-            ]);
+            ])->render('auth/login');
         }
     }
 
@@ -81,7 +79,7 @@ class AuthController extends Controller
     #[Middleware('GuestMiddleware')]
     public function showRegister(): void
     {
-        $this->render('auth/register');
+        View::layout('main')->render('auth/register');
     }
 
     /**
@@ -124,13 +122,13 @@ class AuthController extends Controller
         }
 
         if (!empty($errors)) {
-            $this->render('auth/register', [
+            View::layout('main')->with([
                 'errors' => $errors,
                 'old' => [
                     'name' => $name,
                     'email' => $email
                 ]
-            ]);
+            ])->render('auth/register');
             return;
         }
 
@@ -145,9 +143,9 @@ class AuthController extends Controller
             $this->userModel->create($userData);
             $this->redirect('/login?registered=1');
         } catch (\Exception $e) {
-            $this->render('auth/register', [
+            View::layout('main')->with([
                 'errors' => ['Error during registration: ' . $e->getMessage()]
-            ]);
+            ])->render('auth/register');
         }
     }
 
@@ -161,6 +159,7 @@ class AuthController extends Controller
     public function logout(): void
     {
         session_destroy();
+        $_SESSION = [];
         $this->redirect('/login');
     }
 }

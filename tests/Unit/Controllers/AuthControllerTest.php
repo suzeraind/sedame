@@ -3,6 +3,8 @@
 namespace Tests\Unit\Controllers;
 
 use App\Controllers\AuthController;
+use App\Core\View as CoreView;
+use App\Facades\View;
 use Tests\Unit\BaseTestCase;
 
 class AuthControllerTest extends BaseTestCase
@@ -12,7 +14,11 @@ class AuthControllerTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->authController = new class($this->viewMock, $this->userModelMock) extends AuthController {
+
+        // Swap the View facade with our mock
+        View::swap(CoreView::class, $this->viewMock);
+
+        $this->authController = new class($this->userModelMock) extends AuthController {
             protected function redirect(string $url): void
             {
                 // Overridden to prevent actual redirection during tests
@@ -101,7 +107,6 @@ class AuthControllerTest extends BaseTestCase
         
         $this->authController->logout();
         
-
-        $this->expectNotToPerformAssertions();
+        $this->assertEmpty($_SESSION);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\Http;
 use App\Core\Controller;
 use App\Core\Attributes\Route;
+use App\Facades\View;
 
 class Homecontroller extends Controller
 {
@@ -23,7 +24,7 @@ class Homecontroller extends Controller
                 ['title' => 'Third Post', 'desc' => 'Frontend without JS frameworks'],
             ]
         ];
-        $this->render('home', $data);
+        View::layout('main')->with($data)->render('home');
     }
 
     /**
@@ -32,7 +33,7 @@ class Homecontroller extends Controller
     #[Route(Http::GET, '/about')]
     public function about(): void
     {
-        $this->render('about');
+        View::layout('main')->render('about');
     }
 
 
@@ -43,7 +44,7 @@ class Homecontroller extends Controller
     #[Route(Http::GET, '/showcase')]
     public function showcase(): void
     {
-        $this->render('showcase');
+        View::layout('main')->render('showcase');
     }
 
     /**

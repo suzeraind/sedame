@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Core\Facade;
 use App\Core\View;
 use App\Models\User;
 use PHPUnit\Framework\TestCase;
@@ -30,5 +31,6 @@ class BaseTestCase extends TestCase
         unset($this->viewMock, $this->userModelMock);
         $_SESSION = [];
         $_POST = [];
+        Facade::clearSwappedInstances();
     }
 }

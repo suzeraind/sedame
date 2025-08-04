@@ -2,40 +2,8 @@
 
 namespace App\Core;
 
-use App\Core\View;
-
 abstract class Controller
 {
-    public function __construct(protected View $view)
-    {
-    }
-
-    /**
-     * Render a view with data and a layout.
-     *
-     * @param string $view
-     * @param array<string, mixed>|null $data
-     * @param string|null $layout
-     * @return void
-     */
-    protected function render(string $view, ?array $data = [], ?string $layout = 'main'): void
-    {
-        $this->view
-            ->with($data ?? [])
-            ->layout($layout)
-            ->render($view);
-    }
-
-    /**
-     * Get the view instance.
-     *
-     * @return View
-     */
-    protected function view(): View
-    {
-        return $this->view;
-    }
-
     /**
      * Redirect to a different URL.
      *

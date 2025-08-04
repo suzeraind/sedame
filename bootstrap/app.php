@@ -10,8 +10,8 @@ if (session_status() === PHP_SESSION_NONE) {
 
 use App\Core\Container;
 use App\Core\Database;
+use App\Core\Facade;
 use App\Core\View;
-use App\Models\User;
 
 $container = new Container();
 
@@ -22,5 +22,7 @@ $container->bind(Database::class, function () {
 $container->bind(View::class, function () {
     return new View();
 });
+
+Facade::setFacadeContainer($container);
 
 return $container;
