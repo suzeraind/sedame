@@ -53,3 +53,35 @@ if (!function_exists('pp')) {
         }
     }
 }
+
+
+
+if (!function_exists('redirect')) {
+    /**
+     * Redirect to a given URL.
+     *
+     * @param string $url
+     * @return void
+     */
+    function redirect(string $url): void
+    {
+        header("Location: {$url}");
+        exit();
+    }
+}
+
+if (!function_exists('asset')) {
+    /**
+     * Generate a full URL for a public asset.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    function asset(string $path): string
+    {
+        $scheme = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'];
+        $url = rtrim("{$scheme}://{$host}", '/');
+        return $url . '/' . ltrim($path, '/');
+    }
+}
