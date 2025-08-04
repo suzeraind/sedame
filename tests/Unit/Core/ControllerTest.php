@@ -10,17 +10,9 @@ class ControllerTest extends TestCase
 {
     public function test_controller_instantiates_view(): void
     {
-        $controller = new class extends Controller {
-            public function __construct()
-            {
-                parent::__construct();
-            }
-            public function publicView(): View
-            {
-                return $this->view();
-            }
-        };
-        $this->assertInstanceOf(View::class, $controller->publicView());
+        $mockView = $this->createMock(View::class);
+        $controller = new class($mockView) extends Controller {};
+        $this->assertInstanceOf(Controller::class, $controller);
     }
 
     public function test_render_method_calls_view_methods(): void
@@ -41,7 +33,7 @@ class ControllerTest extends TestCase
         $controller = new class ($mockView) extends Controller {
             public function __construct(View $view)
             {
-                $this->view = $view;
+                parent::__construct($view);
             }
 
             public function callRender(string $view, ?array $data = [], ?string $layout = 'main'): void
@@ -55,10 +47,11 @@ class ControllerTest extends TestCase
 
     public function test_view_method_returns_view_instance(): void
     {
-        $controller = new class extends Controller {
-            public function __construct()
+        $mockView = $this->createMock(View::class);
+        $controller = new class($mockView) extends Controller {
+            public function __construct(View $view)
             {
-                parent::__construct();
+                parent::__construct($view);
             }
             public function publicView(): View
             {

@@ -31,9 +31,9 @@ class ModelTest extends TestCase
         $instanceProperty->setValue(null, null);
     }
 
-    public function test_inst_method_returns_model_instance(): void
+    public function test_model_can_be_instantiated(): void
     {
-        $model = TestModel::inst();
+        $model = new TestModel();
         $this->assertInstanceOf(TestModel::class, $model);
     }
 

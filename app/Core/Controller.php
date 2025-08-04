@@ -6,17 +6,8 @@ use App\Core\View;
 
 abstract class Controller
 {
-    /**
-     * @var View
-     */
-    protected View $view;
-
-    /**
-     * Controller constructor.
-     */
-    public function __construct()
+    public function __construct(protected View $view)
     {
-        $this->view = new View();
     }
 
     /**

@@ -15,14 +15,6 @@ abstract class Model
     protected string $primaryKey = 'id';
 
     /**
-     * @return static
-     */
-    public static function inst(): static
-    {
-        return new static();
-    }
-
-    /**
      * @return array<int, mixed>|false
      */
     public function all(): array|false

@@ -136,7 +136,7 @@ class UserTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->model = User::inst();
+        $this->model = new User();
     }
 
     protected function tearDown(): void

@@ -5,6 +5,7 @@ namespace App\Core;
 use App\Core\Attributes\Route;
 use App\Core\Attributes\Middleware;
 use App\Core\Contracts\IMiddleware;
+use App\Core\Container;
 
 class Router
 {
@@ -26,7 +27,7 @@ class Router
      *
      * Loads routes and dispatches the current request.
      */
-    public function __construct()
+    public function __construct(private Container $container)
     {
         $this->loadRoutes();
         $this->dispatch();
@@ -262,13 +263,13 @@ class Router
             throw new \Exception("Controller not found: $class");
         }
 
+        $controller = $this->container->resolve($class);
+
         $reflectionClass = new \ReflectionClass($class);
 
         if (!$reflectionClass->hasMethod($method)) {
             throw new \Exception("Method not found: $method in class $class");
         }
-
-        $controller = $reflectionClass->newInstance();
 
         $reflectionMethod = $reflectionClass->getMethod($method);
         $arguments = [];

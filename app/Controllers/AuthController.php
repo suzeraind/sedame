@@ -5,24 +5,23 @@ namespace App\Controllers;
 
 use App\Core\Http;
 use App\Core\Controller;
+use App\Core\View;
 use App\Core\Attributes\Route;
 use App\Core\Attributes\Middleware;
 use App\Models\User;
 
 class AuthController extends Controller
 {
-    private User $userModel;
-
     /**
      * Constructor for AuthController.
      * Initializes the parent controller and the User model.
      *
-     * @param User|null $userModel The user model instance.
+     * @param View $view The view instance.
+     * @param User $userModel The user model instance.
      */
-    public function __construct(?User $userModel = null)
+    public function __construct(protected View $view, private User $userModel)
     {
-        parent::__construct();
-        $this->userModel = $userModel ?? User::inst();
+        parent::__construct($view);
     }
 
     /**

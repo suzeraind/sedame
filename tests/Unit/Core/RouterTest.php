@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Core;
 
+use App\Core\Container;
 use App\Core\Router;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -46,8 +47,16 @@ class RouterTest extends TestCase
      */
     private function createRouterWithRoutes(array $routesConfig): Router
     {
+        $container = new Container();
+        $container->bind(TestRouterController::class, fn() => new TestRouterController());
+
         $reflectionClass = new ReflectionClass(Router::class);
         $router = $reflectionClass->newInstanceWithoutConstructor();
+
+        // Manually set the container
+        $containerProperty = $reflectionClass->getProperty('container');
+        $containerProperty->setAccessible(true);
+        $containerProperty->setValue($router, $container);
 
         $routesProperty = $reflectionClass->getProperty('routes');
         $routesProperty->setAccessible(true);
