@@ -52,7 +52,7 @@ class AuthController extends Controller
 
         if ($email === '' || $password === '') {
             $this->render('auth/login', [
-                'error' => 'Заполните все поля'
+                'error' => 'Please fill in all fields'
             ]);
             return;
         }
@@ -65,7 +65,7 @@ class AuthController extends Controller
             $this->redirect('/home');
         } else {
             $this->render('auth/login', [
-                'error' => 'Неверный email или пароль',
+                'error' => 'Invalid email or password',
                 'old_email' => $email
             ]);
         }
@@ -102,24 +102,24 @@ class AuthController extends Controller
         $errors = [];
 
         if ($name === '') {
-            $errors[] = 'Имя обязательно';
+            $errors[] = 'Name is required';
         }
 
         if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = 'Введите корректный email';
+            $errors[] = 'Please enter a valid email';
         }
 
         if ($password === '' || strlen($password) < 6) {
-            $errors[] = 'Пароль должен быть не менее 6 символов';
+            $errors[] = 'Password must be at least 6 characters long';
         }
 
         if ($password !== $password_confirm) {
-            $errors[] = 'Пароли не совпадают';
+            $errors[] = 'Passwords do not match';
         }
 
         if (empty($errors)) {
             if ($this->userModel->findByEmail($email) !== null) {
-                $errors[] = 'Пользователь с таким email уже существует';
+                $errors[] = 'User with this email already exists';
             }
         }
 
@@ -146,7 +146,7 @@ class AuthController extends Controller
             $this->redirect('/login?registered=1');
         } catch (\Exception $e) {
             $this->render('auth/register', [
-                'errors' => ['Ошибка при регистрации: ' . $e->getMessage()]
+                'errors' => ['Error during registration: ' . $e->getMessage()]
             ]);
         }
     }
