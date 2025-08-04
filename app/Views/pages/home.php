@@ -36,29 +36,26 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Core\View;
+use App\Facades\View;
 use App\Models\User;
 use App\Core\Attributes\Route;
 use App\Core\Attributes\Middleware;
 
 class AuthController extends Controller
 {
-    // Dependencies are automatically injected
+    // The User model is automatically injected
     // by the service container.
-    public function __construct(
-        protected View $view,
-        private User $userModel
-    ) {
-        parent::__construct($view);
+    public function __construct(private User $userModel)
+    {
     }
 
     #[Route(Http::GET, '/login')]
     #[Middleware('GuestMiddleware')]
     public function showLogin(): void
     {
-        // The render method is inherited
-        // from the base Controller.
-        $this->render('auth/login');
+        // Use the View facade for rendering.
+        // It provides a clean, static interface.
+        View::layout('main')->render('auth/login');
     }
 }
                                 </code></pre>
