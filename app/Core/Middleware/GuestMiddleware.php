@@ -2,7 +2,9 @@
 
 namespace App\Core\Middleware;
 
-class GuestMiddleware
+use App\Core\Contracts\IMiddleware;
+
+class GuestMiddleware implements IMiddleware
 {
     public function handle(): bool
     {

@@ -4,6 +4,7 @@ namespace App\Core;
 
 use App\Core\Attributes\Route;
 use App\Core\Attributes\Middleware;
+use App\Core\Contracts\IMiddleware;
 
 class Router
 {
@@ -192,10 +193,8 @@ class Router
             if (class_exists($middlewareClass)) {
                 $instance = new $middlewareClass();
 
-                if (method_exists($instance, 'handle')) {
-                    $result = $instance->handle();
-
-                    if ($result === false) {
+                if ($instance instanceof IMiddleware) {
+                    if ($instance->handle() === false) {
                         return false;
                     }
                 }

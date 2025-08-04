@@ -2,7 +2,9 @@
 
 namespace App\Core\Middleware;
 
-class AuthMiddleware
+use App\Core\Contracts\IMiddleware;
+
+class AuthMiddleware implements IMiddleware
 {
     public function handle(): bool
     {
