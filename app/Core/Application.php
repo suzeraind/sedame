@@ -30,7 +30,7 @@ class Application
             session_start();
         }
 
-        $this->container = new Container();
+        $this->container = new Container;
         $this->registerBindings();
         Facade::setFacadeContainer($this->container);
     }
