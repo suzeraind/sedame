@@ -5,6 +5,8 @@ namespace App\Controllers;
 
 use App\Core\Http;
 use App\Core\Controller;
+use App\Core\Request;
+use App\Core\Response;
 use App\Facades\View;
 use App\Core\Attributes\Route;
 use App\Core\Attributes\Middleware;
@@ -26,33 +28,35 @@ class AuthController extends Controller
      * Displays the login form.
      * This route is accessible only to guests.
      *
-     * @return void
+     * @return Response
      */
     #[Route(Http::GET, '/login')]
     #[Middleware('GuestMiddleware')]
-    public function showLogin(): void
+    public function showLogin(): Response
     {
-        View::layout('main')->render('auth/login');
+        $content = View::layout('main')->render('auth/login');
+        return new Response($content);
     }
 
     /**
      * Handles the user login process.
      * Validates credentials and redirects on success, or shows errors on failure.
      *
-     * @return void
+     * @param Request $request
+     * @return Response
      */
     #[Route(Http::POST, '/login')]
     #[Middleware('GuestMiddleware')]
-    public function login(): void
+    public function login(Request $request): Response
     {
-        $email = trim((string) ($_POST['email'] ?? ''));
-        $password = (string) ($_POST['password'] ?? '');
+        $email = trim((string) $request->input('email', ''));
+        $password = (string) $request->input('password', '');
 
         if ($email === '' || $password === '') {
-            View::layout('main')->with([
+            $content = View::layout('main')->with([
                 'error' => 'Please fill in all fields'
             ])->render('auth/login');
-            return;
+            return new Response($content, 422);
         }
 
         $user = $this->userModel->findByEmail($email);
@@ -60,12 +64,13 @@ class AuthController extends Controller
         if ($user !== null && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['name'] ?? $user['username'];
-            $this->redirect('/home');
+            return new Response('', 302, ['Location' => '/home']);
         } else {
-            View::layout('main')->with([
+            $content = View::layout('main')->with([
                 'error' => 'Invalid email or password',
                 'old_email' => $email
             ])->render('auth/login');
+            return new Response($content, 422);
         }
     }
 
@@ -73,29 +78,31 @@ class AuthController extends Controller
      * Displays the registration form.
      * This route is accessible only to guests.
      *
-     * @return void
+     * @return Response
      */
     #[Route(Http::GET, '/register')]
     #[Middleware('GuestMiddleware')]
-    public function showRegister(): void
+    public function showRegister(): Response
     {
-        View::layout('main')->render('auth/register');
+        $content = View::layout('main')->render('auth/register');
+        return new Response($content);
     }
 
     /**
      * Handles the user registration process.
      * Validates input, creates a new user, and redirects on success, or shows errors on failure.
      *
-     * @return void
+     * @param Request $request
+     * @return Response
      */
     #[Route(Http::POST, '/register')]
     #[Middleware('GuestMiddleware')]
-    public function register(): void
+    public function register(Request $request): Response
     {
-        $name = trim((string) ($_POST['name'] ?? ''));
-        $email = trim((string) ($_POST['email'] ?? ''));
-        $password = (string) ($_POST['password'] ?? '');
-        $password_confirm = (string) ($_POST['password_confirm'] ?? '');
+        $name = trim((string) $request->input('name', ''));
+        $email = trim((string) $request->input('email', ''));
+        $password = (string) $request->input('password', '');
+        $password_confirm = (string) $request->input('password_confirm', '');
 
         $errors = [];
 
@@ -122,14 +129,14 @@ class AuthController extends Controller
         }
 
         if (!empty($errors)) {
-            View::layout('main')->with([
+            $content = View::layout('main')->with([
                 'errors' => $errors,
                 'old' => [
                     'name' => $name,
                     'email' => $email
                 ]
             ])->render('auth/register');
-            return;
+            return new Response($content, 422);
         }
 
         $userData = [
@@ -141,25 +148,26 @@ class AuthController extends Controller
 
         try {
             $this->userModel->create($userData);
-            $this->redirect('/login?registered=1');
+            return new Response('', 302, ['Location' => '/login?registered=1']);
         } catch (\Exception $e) {
-            View::layout('main')->with([
+            $content = View::layout('main')->with([
                 'errors' => ['Error during registration: ' . $e->getMessage()]
             ])->render('auth/register');
+            return new Response($content, 500);
         }
     }
 
     /**
      * Logs out the current user by destroying the session.
      *
-     * @return void
+     * @return Response
      */
     #[Route(Http::GET, '/logout')]
     #[Middleware('AuthMiddleware')]
-    public function logout(): void
+    public function logout(): Response
     {
         session_destroy();
         $_SESSION = [];
-        $this->redirect('/login');
+        return new Response('', 302, ['Location' => '/login']);
     }
 }

@@ -24,9 +24,13 @@
         />
 
         <!-- Prism.js for code highlighting -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+            rel="stylesheet"
+        />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 
         <style>
             .container {
@@ -40,12 +44,12 @@
             id="app"
             class="flex-grow"
         >
-            <?php $this->component('header', ['site_name' => 'Sedame']) ?>
+            <?= $this->component('header', ['site_name' => 'Sedame']); ?>
             <main class="pt-20 sm:pt-24">
                 <?= $content ?? '' ?>
             </main>
         </div>
-        <?php $this->component('footer') ?>
+        <?= $this->component('footer'); ?>
     </body>
 
 </html>

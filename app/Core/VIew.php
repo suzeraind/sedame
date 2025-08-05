@@ -51,9 +51,9 @@ class View
      *
      * @param string $name
      * @param array<string, mixed> $data
-     * @return void
+     * @return string
      */
-    public function component(string $name, array $data = []): void
+    public function component(string $name, array $data = []): string
     {
         $path = VIEW_PATH . "/components/{$name}.php";
 
@@ -62,17 +62,19 @@ class View
         }
 
         extract($data, EXTR_SKIP);
+        ob_start();
         include $path;
+        return ob_get_clean() ?: '';
     }
 
     /**
      * Render the main view and insert content.
      *
      * @param string $view
-     * @return void
+     * @return string
      * @throws \Exception
      */
-    public function render(string $view): void
+    public function render(string $view): string
     {
         $viewPath = VIEW_PATH . "/pages/{$view}.php";
 
@@ -80,19 +82,22 @@ class View
             throw new \Exception("View not found: {$viewPath}");
         }
 
-        extract($this->data, EXTR_SKIP);
         ob_start();
+        extract($this->data, EXTR_SKIP);
         include $viewPath;
-        $content = ob_get_clean();
+        $content = ob_get_clean() ?: '';
 
         if ($this->layout) {
             $layoutPath = VIEW_PATH . "/layouts/{$this->layout}.php";
             if (!file_exists($layoutPath)) {
                 throw new \Exception("Layout not found: {$layoutPath}");
             }
+            ob_start();
+            extract($this->data, EXTR_SKIP);
             include $layoutPath;
-        } else {
-            echo $content;
+            return ob_get_clean() ?: '';
         }
+
+        return $content;
     }
 }

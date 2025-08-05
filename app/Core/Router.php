@@ -6,6 +6,8 @@ use App\Core\Attributes\Route;
 use App\Core\Attributes\Middleware;
 use App\Core\Contracts\IMiddleware;
 use App\Core\Container;
+use App\Core\Request;
+use App\Core\Response;
 
 class Router
 {
@@ -24,13 +26,10 @@ class Router
 
     /**
      * Router constructor.
-     *
-     * Loads routes and dispatches the current request.
      */
     public function __construct(private Container $container)
     {
         $this->loadRoutes();
-        $this->dispatch();
     }
 
     /**
@@ -150,18 +149,17 @@ class Router
     /**
      * Dispatches the request to the appropriate route.
      *
-     * @return void
+     * @param Request $request
+     * @return Response
      */
-    private function dispatch(): void
+    public function dispatch(Request $request): Response
     {
-        $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
+        $method = $request->method();
+        $uri = $request->uri();
         $uri = rtrim($uri, '/') ?: '/';
 
         if (!isset($this->routes[$method])) {
-            http_response_code(405);
-            echo "Method Not Allowed.";
-            return;
+            return new Response('Method Not Allowed.', 405);
         }
 
         foreach ($this->routes[$method] as $route) {
@@ -169,15 +167,14 @@ class Router
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
 
                 if (!$this->runMiddlewares($route['middlewares'] ?? [])) {
-                    return;
+                    return new Response('Forbidden', 403);
                 }
 
-                $this->callAction($route['action'], $params);
-                return;
+                return $this->callAction($route['action'], $params);
             }
         }
 
-        $this->handleNotFound($uri);
+        return $this->handleNotFound($uri);
     }
 
     /**
@@ -224,9 +221,9 @@ class Router
      * Handles the case where no route is found.
      *
      * @param string $uri
-     * @return void
+     * @return Response
      */
-    private function handleNotFound(string $uri): void
+    private function handleNotFound(string $uri): Response
     {
         $allowedMethods = [];
         foreach ($this->routes as $method => $routes) {
@@ -238,12 +235,9 @@ class Router
         }
 
         if (!empty($allowedMethods)) {
-            http_response_code(405);
-            header('Allow: ' . implode(', ', array_unique($allowedMethods)));
-            echo "Method Not Allowed for this URI.";
+            return new Response('Method Not Allowed for this URI.', 405, ['Allow' => implode(', ', array_unique($allowedMethods))]);
         } else {
-            http_response_code(404);
-            echo "Page Not Found.";
+            return new Response('Page Not Found.', 404);
         }
     }
 
@@ -252,10 +246,10 @@ class Router
      *
      * @param string $action
      * @param array<string, mixed> $params
-     * @return void
+     * @return Response
      * @throws \Exception
      */
-    private function callAction(string $action, array $params): void
+    private function callAction(string $action, array $params): Response
     {
         [$class, $method] = explode('@', $action);
 
@@ -278,6 +272,11 @@ class Router
             $name = $param->getName();
             $type = $param->getType();
 
+            if ($type instanceof \ReflectionNamedType && $type->getName() === Request::class) {
+                $arguments[] = $this->container->resolve(Request::class);
+                continue;
+            }
+
             if (isset($params[$name])) {
                 if ($type instanceof \ReflectionNamedType) {
                     $arguments[] = match ($type->getName()) {
@@ -296,6 +295,15 @@ class Router
             }
         }
 
-        $reflectionMethod->invokeArgs($controller, $arguments);
+        $response = $reflectionMethod->invokeArgs($controller, $arguments);
+
+        if (!$response instanceof Response) {
+            if (is_string($response) || is_array($response) || is_object($response)) {
+                return new Response($response);
+            }
+            throw new \Exception('Action must return a Response object');
+        }
+
+        return $response;
     }
 }

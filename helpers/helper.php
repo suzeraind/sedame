@@ -56,19 +56,7 @@ if (!function_exists('pp')) {
 
 
 
-if (!function_exists('redirect')) {
-    /**
-     * Redirect to a given URL.
-     *
-     * @param string $url
-     * @return void
-     */
-    function redirect(string $url): void
-    {
-        header("Location: {$url}");
-        exit();
-    }
-}
+
 
 if (!function_exists('asset')) {
     /**

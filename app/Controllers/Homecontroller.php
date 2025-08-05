@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\Http;
 use App\Core\Controller;
 use App\Core\Attributes\Route;
+use App\Core\Response;
 use App\Facades\View;
 
 class Homecontroller extends Controller
@@ -14,7 +15,7 @@ class Homecontroller extends Controller
      */
     #[Route(Http::GET, '/')]
     #[Route(Http::GET, '/home')]
-    public function index(): void
+    public function index(): Response
     {
         $data = [
             'title' => 'Home — My Website',
@@ -24,16 +25,18 @@ class Homecontroller extends Controller
                 ['title' => 'Third Post', 'desc' => 'Frontend without JS frameworks'],
             ]
         ];
-        View::layout('main')->with($data)->render('home');
+        $content = View::layout('main')->with($data)->render('home');
+        return new Response($content);
     }
 
     /**
      * Renders the about page.
      */
     #[Route(Http::GET, '/about')]
-    public function about(): void
+    public function about(): Response
     {
-        View::layout('main')->render('about');
+        $content = View::layout('main')->render('about');
+        return new Response($content);
     }
 
 
@@ -42,9 +45,10 @@ class Homecontroller extends Controller
      * Renders the showcase page.
      */
     #[Route(Http::GET, '/showcase')]
-    public function showcase(): void
+    public function showcase(): Response
     {
-        View::layout('main')->render('showcase');
+        $content = View::layout('main')->render('showcase');
+        return new Response($content);
     }
 
     /**
@@ -53,31 +57,27 @@ class Homecontroller extends Controller
      * @param string $name
      */
     #[Route(Http::GET, '/hello/{name}')]
-    public function hello(string $name): void
+    public function hello(string $name): Response
     {
-        echo "Hello {$name}";
+        return new Response("Hello {$name}");
     }
 
     /**
      * Returns a JSON response for a POST request.
      */
     #[Route(Http::POST, '/json')]
-    public function jsonPostResponse(): void
+    public function jsonPostResponse(): Response
     {
-        $this->json([
-            'hello' => 'post'
-        ]);
+        return new Response(json_encode(['hello' => 'post']), 200, ['Content-Type' => 'application/json']);
     }
 
     /**
      * Returns a JSON response for a GET request.
      */
     #[Route(Http::GET, '/json')]
-    public function jsonGetResponse(): void
+    public function jsonGetResponse(): Response
     {
-        $this->json([
-            'hello' => 'get'
-        ]);
+        return new Response(json_encode(['hello' => 'get']), 200, ['Content-Type' => 'application/json']);
     }
 }
 
