@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Core\Http;
-use App\Core\Controller;
 use App\Core\Attributes\Route;
+use App\Core\Controller;
+use App\Core\Http;
 use App\Core\Response;
 use App\Facades\View;
 
@@ -38,8 +38,6 @@ class Homecontroller extends Controller
         $content = View::layout('main')->render('about');
         return new Response($content);
     }
-
-
 
     /**
      * Renders the showcase page.
@@ -80,4 +78,3 @@ class Homecontroller extends Controller
         return new Response(json_encode(['hello' => 'get']), 200, ['Content-Type' => 'application/json']);
     }
 }
-

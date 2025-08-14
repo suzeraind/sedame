@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Controllers;
 
 use App\Core\Http;
@@ -18,9 +17,9 @@ class AuthController extends Controller
      * Constructor for AuthController.
      * Initializes the parent controller and the User model.
      *
-     * @param User $userModel The user model instance.
+     * @param User $user The user model instance.
      */
-    public function __construct(private User $userModel)
+    public function __construct(private User $user)
     {
     }
 
@@ -59,7 +58,7 @@ class AuthController extends Controller
             return new Response($content, 422);
         }
 
-        $user = $this->userModel->findByEmail($email);
+        $user = $this->user->findByEmail($email);
 
         if ($user !== null && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
@@ -123,7 +122,7 @@ class AuthController extends Controller
         }
 
         if (empty($errors)) {
-            if ($this->userModel->findByEmail($email) !== null) {
+            if ($this->user->findByEmail($email) !== null) {
                 $errors[] = 'User with this email already exists';
             }
         }
@@ -147,7 +146,7 @@ class AuthController extends Controller
         ];
 
         try {
-            $this->userModel->create($userData);
+            $this->user->create($userData);
             return new Response('', 302, ['Location' => '/login?registered=1']);
         } catch (\Exception $e) {
             $content = View::layout('main')->with([
@@ -167,7 +166,6 @@ class AuthController extends Controller
     public function logout(): Response
     {
         session_destroy();
-        $_SESSION = [];
         return new Response('', 302, ['Location' => '/login']);
     }
 }
