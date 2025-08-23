@@ -647,18 +647,14 @@ if (!function_exists('time_ago')) {
     {
         $time = time() - strtotime($datetime);
 
-        if ($time < 60)
-            return 'just now';
-        if ($time < 3600)
-            return floor($time / 60) . ' minutes ago';
-        if ($time < 86400)
-            return floor($time / 3600) . ' hours ago';
-        if ($time < 2592000)
-            return floor($time / 86400) . ' days ago';
-        if ($time < 31536000)
-            return floor($time / 2592000) . ' months ago';
-
-        return floor($time / 31536000) . ' years ago';
+        return match (true) {
+            $time < 60 => 'just now',
+            $time < 3600 => floor($time / 60) . ' minutes ago',
+            $time < 86400 => floor($time / 3600) . ' hours ago',
+            $time < 2592000 => floor($time / 86400) . ' days ago',
+            $time < 31536000 => floor($time / 2592000) . ' months ago',
+            default => floor($time / 31536000) . ' years ago',
+        };
     }
 }
 
